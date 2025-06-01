@@ -59,3 +59,43 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+## Basic Laravel e-commerce structure
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── Admin/
+│   │   │   ├── ProductController.php
+│   │   │   ├── OrderController.php
+│   │   ├── Frontend/
+│   │   │   ├── CartController.php
+│   │   │   ├── CheckoutController.php
+│   │   │   ├── ProductController.php
+│   ├── Requests/
+│   │   ├── StoreProductRequest.php
+│   │   ├── UpdateProductRequest.php
+database/
+├── migrations/
+│   ├── 2023_01_01_000000_create_products_table.php
+│   ├── 2023_01_01_000001_create_categories_table.php
+│   ├── 2023_01_01_000002_create_orders_table.php
+resources/
+├── views/
+│   ├── admin/
+│   │   ├── products/
+│   │   │   ├── index.blade.php
+│   │   │   ├── create.blade.php
+│   ├── frontend/
+│   │   ├── products/
+│   │   │   ├── index.blade.php
+│   │   │   ├── show.blade.php
+│   │   ├── cart/
+│   │   │   ├── index.blade.php
+routes/
+├── web.php
+├── admin.php
+
