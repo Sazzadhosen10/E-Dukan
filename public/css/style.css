@@ -4,7 +4,11 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+.header{
+    background-color: #F85606;
+    height: 100px;
+    
+}
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;

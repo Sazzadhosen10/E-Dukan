@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
-    <header>
+    <header class="header">
         <nav>
             <a href="{{ url('/shop') }}" class="logo">E-Dukan</a>
             <ul>
