@@ -9,7 +9,14 @@
 <body>
     <header class="header">
         <nav>
-            <a href="{{ url('/shop') }}" class="logo">E-Dukan</a>
+            <!--<a href="{{ url('/shop') }}" class="logo">E-Dukan</a>-->
+
+            <img class="logo-img" src="{{ asset('images/E_Dokan.jpg') }}" alt="E-Dukan Logo">
+            <div class="search-container">
+               <div class="logo"></div>
+                 <input type="text" class="search-input" placeholder="Search in E-Dukan">
+                    <button class="search-button">SEARCH</button>
+            </div>z
             <ul>
                 <li><a href="{{ url('/shop') }}">Home</a></li>
                 <li><a href="{{ url('/shop/category') }}">Electronics</a></li>
