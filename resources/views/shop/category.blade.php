@@ -5,11 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop – Electronics</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
+    <div class="header-top">
+        <ul class="header-links">
+            <li><a href=""></a>jbfhdsahfs</li>
+            <li><a href=""></a>Login</li>
+            <li><a href=""></a>Signup</li>
+            <li><a href=""></a>Language</li>
+        </ul>
+    </div>
     <header class="header">
         <nav>
-            <a href="{{ url('/shop') }}" class="logo">Shop</a>
+            <img class="logo-img" src="{{ asset('images/E_Dokan.jpg') }}" alt="E-Dukan Logo">
+            <div class="search-container">
+               <div class="logo"></div>
+                 <input type="text" class="search-input" placeholder="Search in E-Dukan">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+            </div>
             <ul>
                 <li><a href="{{ url('/shop') }}">Home</a></li>
                 <li><a href="{{ url('/shop/category') }}">Electronics</a></li>

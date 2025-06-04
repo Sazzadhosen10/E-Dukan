@@ -44,6 +44,11 @@
                 <label for="product-description">Description</label>
                 <textarea id="product-description" name="description" required></textarea>
             </div>
+            <div class="form-group">
+                <label for="product-image">Product Image</label>
+                <input type="file" id="product-image" name="image" accept="image/*" required>
+                <small>Upload product image (JPG, PNG, GIF)</small>
+            </div>
             <button type="submit">Add Product</button>
         </form>
 
