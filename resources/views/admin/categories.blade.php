@@ -10,9 +10,7 @@
     <header>
         <nav>
             <ul>
-                <li><a href="{{ url('/admin/categories') }}">Categories</a></li>
-                <li><a href="{{ url('/admin/products') }}">Products</a></li>
-                <li><a href="{{ url('/admin/orders') }}">Orders</a></li>
+                <li><a href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
             </ul>
         </nav>
     </header>

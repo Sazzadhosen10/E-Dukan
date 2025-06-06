@@ -29,7 +29,11 @@ Route::get('/shop/checkout', function () {
 
 // Admin Routes
 Route::get('/admin', function () {
-    return redirect('/admin/categories');
+    return redirect('/admin/dashboard');
+});
+
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
 });
 
 Route::get('/admin/categories', function () {
