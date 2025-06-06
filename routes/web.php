@@ -27,6 +27,10 @@ Route::get('/shop/checkout', function () {
     return view('shop.checkout');
 });
 
+Route::get('/shop/profile', function () {
+    return view('shop.profile');
+});
+
 // Admin Routes
 Route::get('/admin', function () {
     return redirect('/admin/dashboard');
@@ -47,3 +51,5 @@ Route::get('/admin/products', function () {
 Route::get('/admin/orders', function () {
     return view('admin.orders');
 });
+
+

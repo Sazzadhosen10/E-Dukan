@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop – Home</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/lastscroll.js') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
@@ -17,7 +18,7 @@
         </ul>
     </div>
     <header class="header">
-        <nav>
+        <nav class="nav_container">
             <img class="logo-img" src="{{ asset('images/E_Dokan.jpg') }}" alt="E-Dukan Logo">
             <div class="search-container">
                <div class="logo"></div>
@@ -25,12 +26,11 @@
                     <button class="search-button"><i class="fas fa-search"></i></button>
             </div>
             <ul>
-                <li><a href="{{ url('/shop') }}">Home</a></li>
-                <li><a href="{{ url('/shop/category') }}">Electronics</a></li>
-                <li><a href="{{ url('/shop/cart') }}" class="cart-icon">
-                    Cart
+                <li class="cart-icon"><a href="{{ url('/shop/profile') }}" class="fa-solid fa-cart-shopping">
+
                     <span class="cart-count">0</span>
-                </a></li>
+                </a>
+            </li>
             </ul>
         </nav>
     </header>
@@ -70,6 +70,9 @@
             </li>
         </ul>
     </main>
+    <div class="shop_button">
+        <a href="{{ url('/shop/category') }}" class="hero-btn">Shop Now</a>
+    </div>
 
     <footer>
         <p>&copy; 2024 Shop. All rights reserved.</p>
