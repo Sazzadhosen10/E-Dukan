@@ -8,149 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('css/calender.css') }}">
-    <style>
-        :root {
-            --sidebar-width: 280px;
-            --primary-color: #4e73df;
-            --secondary-color: #f8f9fc;
-        }
-        
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #f8f9fc;
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            width: var(--sidebar-width);
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            background: white;
-            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
-            transition: all 0.3s;
-            z-index: 1000;
-        }
-        
-        .sidebar-brand {
-            height: 4.375rem;
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: 800;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            letter-spacing: 0.05rem;
-            z-index: 1;
-            color: var(--primary-color);
-        }
-        
-        .sidebar-divider {
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            margin: 1rem 0;
-        }
-        
-        .sidebar-heading {
-            padding: 0 1rem;
-            font-weight: 800;
-            font-size: 0.65rem;
-            color: #b7b9cc;
-            text-transform: uppercase;
-        }
-        
-        .nav-item {
-            position: relative;
-        }
-        
-        .nav-link {
-            padding: 0.75rem 1rem;
-            color: #d1d3e2;
-            font-weight: 600;
-        }
-        
-        .nav-link i {
-            margin-right: 0.25rem;
-            color: #b7b9cc;
-        }
-        
-        .nav-link.active {
-            color: var(--primary-color);
-        }
-        
-        .nav-link.active i {
-            color: var(--primary-color);
-        }
-        
-        /* Main Content */
-        .main-content {
-            margin-left: var(--sidebar-width);
-            padding: 2rem;
-            min-height: 100vh;
-            transition: all 0.3s;
-        }
-        
-        /* Cards */
-        .card {
-            border: none;
-            border-radius: 0.35rem;
-            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
-            margin-bottom: 1.5rem;
-        }
-        
-        .card-header {
-            background-color: #f8f9fc;
-            border-bottom: 1px solid #e3e6f0;
-            padding: 1rem 1.35rem;
-            font-weight: 700;
-        }
-        
-        /* Stats Cards */
-        .stat-card {
-            border-left: 0.25rem solid var(--primary-color);
-        }
-        
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        
-        .stat-label {
-            font-size: 0.875rem;
-            color: #5a5c69;
-        }
-        
-        .stat-change {
-            font-size: 0.875rem;
-        }
-        
-        .positive {
-            color: #1cc88a;
-        }
-        
-        /* Chart */
-        .chart-area {
-            position: relative;
-            height: 10rem;
-            width: 100%;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                margin-left: -280px;
-            }
-            .main-content {
-                margin-left: 0;
-            }
-            .sidebar.toggled {
-                margin-left: 0;
-            }
-            .sidebar-toggler {
-                display: block !important;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/admin/calender.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
 </head>
 <body>
     <!-- Sidebar -->
@@ -215,7 +74,7 @@
                 </a>
             </li>   
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="#calendar">
                     <i class="fas fa-fw fa-calendar"></i>
                     <span>Calendar</span>
                 </a>
@@ -586,5 +445,8 @@
             });
         });
     </script>
+        <footer>
+        <p>&copy; 2024 Shop Admin Panel. All rights reserved.</p>
+    </footer>
 </body>
 </html>
