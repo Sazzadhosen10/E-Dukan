@@ -33,9 +33,12 @@ Route::get('/shop/profile', function () {
 
 // Admin Routes
 Route::get('/admin', function () {
-    return redirect('/admin/dashboard');
+    return redirect('/admin/login');
 });
 
+Route::get('/admin/login', function () {
+    return view('admin.login');
+});
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
 });
