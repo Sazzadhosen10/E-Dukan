@@ -63,6 +63,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 });
 
 // Admin Login (separate from regular login)
-Route::get('/admin/login', function () {
+Route::get('image.png/admin/login', function () {
     return view('admin.login');
 })->name('admin.login');
+
+Route::get('/dashboard', function () {
+    return view('dashboard'); // অথবা যেকোনো view
+})->name('dashboard');
