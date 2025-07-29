@@ -17,7 +17,7 @@
             flex-direction: row;
             min-height: 100vh;
         }
-        .sidebar {
+          .sidebar {
             width: 250px;
             width: 20%;
             background-color: #b9c3339e;
@@ -109,7 +109,6 @@
 <body>
     <div class="header-top">
         <ul class="header-links">
-            <li><a href=""></a>jbfhdsahfs</li>
             <li><a href=""></a>Login</li>
             <li><a href=""></a>Signup</li>
             <li><a href=""></a>Language</li>
