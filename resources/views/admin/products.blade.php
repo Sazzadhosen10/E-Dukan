@@ -3,6 +3,7 @@
 @section('title', 'Add Product – E-Dukan')
 
 @section('content')
+<<<<<<< HEAD
 
 
 <style>
@@ -380,6 +381,8 @@ form[style*="display:inline-block"] {
 .table-responsive::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
 }</style>
+=======
+>>>>>>> 6c180ec (old version)
 <div class="container mt-4">
     <div class="card shadow mb-4">
         <div class="card-header bg-primary text-white">
