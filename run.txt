@@ -24,3 +24,7 @@ php artisan serve
 
 admin@example.com
 password
+
+
+
+protik
