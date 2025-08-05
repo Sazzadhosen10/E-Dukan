@@ -1,11 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', 'Add Product – E-Dukan')
+@section('title', 'Products Management – E-Dukan')
 
 @section('content')
-<<<<<<< HEAD
-
-
 <style>
     /* Product Management Page Styles */
 
@@ -380,60 +377,108 @@ form[style*="display:inline-block"] {
 
 .table-responsive::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-}</style>
-=======
->>>>>>> 6c180ec (old version)
+}
+</style>
+
 <div class="container mt-4">
+    <!-- Success/Error Messages -->
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
+
     <div class="card shadow mb-4">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0">Add New Product</h5>
         </div>
         <div class="card-body">
-            @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
-
             <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="mb-3">
                     <label class="form-label">Product Name <span class="text-danger">*</span></label>
-                    <input type="text" name="name" class="form-control" required>
+                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required>
+                    @error('name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <textarea name="description" class="form-control" rows="3"></textarea>
+                    <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="3">{{ old('description') }}</textarea>
+                    @error('description')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Price <span class="text-danger">*</span></label>
-                    <input type="number" name="price" class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Stock <span class="text-danger">*</span></label>
-                    <input type="number" name="stock" class="form-control" required>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Price <span class="text-danger">*</span></label>
+                            <input type="number" name="price" class="form-control @error('price') is-invalid @enderror" value="{{ old('price') }}" step="0.01" min="0" required>
+                            @error('price')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Stock <span class="text-danger">*</span></label>
+                            <input type="number" name="stock" class="form-control @error('stock') is-invalid @enderror" value="{{ old('stock') }}" min="0" required>
+                            @error('stock')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Category <span class="text-danger">*</span></label>
-                    <select name="category_id" class="form-select" required>
+                    <select name="category_id" class="form-select @error('category_id') is-invalid @enderror" required>
                         <option value="">-- Select Category --</option>
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
                         @endforeach
                     </select>
+                    @error('category_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Product Image</label>
-                    <input type="file" name="image" class="form-control">
+                    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
+                    <small class="text-muted">Supported formats: JPEG, PNG, JPG, GIF (Max: 2MB)</small>
+                    @error('image')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" name="is_visible" class="form-check-input" id="is_visible" value="1" {{ old('is_visible') ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_visible">
+                            Make this product visible to customers
+                        </label>
+                    </div>
                 </div>
 
                 <div class="text-end">
                     <button type="submit" class="btn btn-success">
-                        <i class="fas fa-check"></i> Submit
+                        <i class="fas fa-plus"></i> Add Product
                     </button>
                 </div>
             </form>
@@ -447,51 +492,93 @@ form[style*="display:inline-block"] {
         </div>
         <div class="card-body">
             @if($products->count() > 0)
-                <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Price</th>
-                            <th>Stock</th>
-                            <th>Visible</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($products as $product)
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
                             <tr>
-                                <td>{{ $loop->iteration + ($products->currentPage() - 1) * $products->perPage() }}</td>
-                                <td>
-                                    @if($product->image)
-                                        <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" width="50" height="50">
-                                    @else
-                                        N/A
-                                    @endif
-                                </td>
-                                <td>{{ $product->name }}</td>
-                                <td>{{ $product->category ? $product->category->name : 'N/A' }}</td>
-                                <td>${{ number_format($product->price, 2) }}</td>
-                                <td>{{ $product->stock }}</td>
-                                <td>{{ $product->is_visible ? 'Yes' : 'No' }}</td>
-                                <td>
-                                    <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                    <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure to delete this product?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                    </form>
-                                </td>
+                                <th>#</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach($products as $product)
+                                <tr>
+                                    <td>{{ $loop->iteration + ($products->currentPage() - 1) * $products->perPage() }}</td>
+                                    <td>
+                                        @if($product->image)
+                                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" width="50" height="50" style="object-fit: cover;">
+                                        @else
+                                            <div class="bg-light d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border-radius: 8px;">
+                                                <i class="fas fa-image text-muted"></i>
+                                            </div>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <strong>{{ $product->name }}</strong>
+                                        @if($product->description)
+                                            <br><small class="text-muted">{{ Str::limit($product->description, 50) }}</small>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($product->category)
+                                            <span class="badge bg-primary">{{ $product->category->name }}</span>
+                                        @else
+                                            <span class="badge bg-secondary">No Category</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <strong class="text-success">${{ number_format($product->price, 2) }}</strong>
+                                    </td>
+                                    <td>
+                                        @if($product->stock > 0)
+                                            <span class="badge bg-success">{{ $product->stock }} in stock</span>
+                                        @else
+                                            <span class="badge bg-danger">Out of stock</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($product->is_visible)
+                                            <span class="badge bg-success">Visible</span>
+                                        @else
+                                            <span class="badge bg-warning">Hidden</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-sm btn-primary" title="Edit Product">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this product?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger" title="Delete Product">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
-                {{ $products->links() }}
+                <!-- Pagination -->
+                <div class="d-flex justify-content-center mt-4">
+                    {{ $products->links() }}
+                </div>
             @else
-                <p>No products found.</p>
+                <div class="text-center py-4">
+                    <i class="fas fa-box fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">No products found</h5>
+                    <p class="text-muted">Start by adding your first product using the form above.</p>
+                </div>
             @endif
         </div>
     </div>

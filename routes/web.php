@@ -45,6 +45,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     // User Management
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
 
     // Category Management
     Route::get('/categories', [AdminController::class, 'categories'])->name('admin.categories');
@@ -68,6 +69,8 @@ Route::get('image.png/admin/login', function () {
     return view('admin.login');
 })->name('admin.login');
 
-Route::get('/dashboard', function () {
-    return view('dashboard'); // অথবা যেকোনো view
-})->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

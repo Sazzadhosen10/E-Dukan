@@ -88,6 +88,23 @@
             </div>
         </div>
 
+        <!-- Success/Error Messages -->
+        @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        @endif
+
+        @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        @endif
+
         <!-- Users Table -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -149,7 +166,7 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-sm btn-outline-info" title="View Details">
+                                        <button type="button" class="btn btn-sm btn-outline-info" title="View Details" data-bs-toggle="modal" data-bs-target="#userModal{{ $user->id }}">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                         @if(!$user->is_admin)
@@ -158,9 +175,13 @@
                                         </button>
                                         @endif
                                         @if($user->id != Auth::id())
-                                        <button type="button" class="btn btn-sm btn-outline-danger" title="Delete User">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this user?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete User">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
                                         @endif
                                     </div>
                                 </td>
@@ -183,6 +204,109 @@
                 @endif
             </div>
         </div>
+
+        <!-- User Detail Modals -->
+        @foreach($users as $user)
+        <div class="modal fade" id="userModal{{ $user->id }}" tabindex="-1" aria-labelledby="userModalLabel{{ $user->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="userModalLabel{{ $user->id }}">
+                            <i class="fas fa-user me-2"></i>
+                            User Details: {{ $user->name }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-4 text-center mb-3">
+                                <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 100px; height: 100px; font-size: 2.5rem;">
+                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                </div>
+                                <h5 class="mt-2">{{ $user->name }}</h5>
+                                @if($user->is_admin)
+                                <span class="badge bg-danger">Admin</span>
+                                @else
+                                <span class="badge bg-primary">User</span>
+                                @endif
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-bold text-muted">User ID:</label>
+                                        <p class="mb-0">{{ $user->id }}</p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-bold text-muted">Email:</label>
+                                        <p class="mb-0">{{ $user->email }}</p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-bold text-muted">Account Type:</label>
+                                        <p class="mb-0">
+                                            @if($user->is_admin)
+                                            <span class="badge bg-danger">Administrator</span>
+                                            @else
+                                            <span class="badge bg-primary">Regular User</span>
+                                            @endif
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-bold text-muted">Email Status:</label>
+                                        <p class="mb-0">
+                                            @if($user->email_verified_at)
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check"></i> Verified
+                                            </span>
+                                            @else
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-clock"></i> Pending
+                                            </span>
+                                            @endif
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-bold text-muted">Registration Date:</label>
+                                        <p class="mb-0">{{ $user->created_at->format('F d, Y') }}</p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-bold text-muted">Registration Time:</label>
+                                        <p class="mb-0">{{ $user->created_at->format('h:i A') }}</p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-bold text-muted">Last Updated:</label>
+                                        <p class="mb-0">{{ $user->updated_at->format('F d, Y h:i A') }}</p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-bold text-muted">Account Age:</label>
+                                        <p class="mb-0">{{ $user->created_at->diffForHumans() }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        @if(!$user->is_admin)
+                        <button type="button" class="btn btn-warning">
+                            <i class="fas fa-user-shield me-1"></i>
+                            Make Admin
+                        </button>
+                        @endif
+                        @if($user->id != Auth::id())
+                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this user?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash me-1"></i>
+                                Delete User
+                            </button>
+                        </form>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
 
         <!-- Statistics Cards -->
         <div class="row">

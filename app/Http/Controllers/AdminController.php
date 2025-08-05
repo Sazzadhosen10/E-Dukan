@@ -201,4 +201,23 @@ class AdminController extends Controller
     {
         return view('admin.orders');
     }
+
+    /**
+     * Delete a user
+     */
+    public function destroyUser(User $user)
+    {
+        // Prevent deleting admin users
+        if ($user->is_admin) {
+            return redirect()->back()->with('error', 'Cannot delete admin users!');
+        }
+
+        // Prevent deleting the current logged-in user
+        if ($user->id === auth()->id()) {
+            return redirect()->back()->with('error', 'Cannot delete your own account!');
+        }
+
+        $user->delete();
+        return redirect()->back()->with('success', 'User deleted successfully!');
+    }
 }
