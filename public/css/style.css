@@ -45,6 +45,33 @@ nav_container{
     height: 100px;
     width: 180px;
 }
+
+/* Enhanced Logo Styling */
+.navbar-brand img {
+    height: 60px !important;
+    max-width: 200px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+/* Responsive Logo */
+@media (max-width: 768px) {
+    .navbar-brand img {
+        height: 50px !important;
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand img {
+        height: 45px !important;
+        max-width: 120px;
+    }
+}
 .search-container {
             max-width: 1200px;
             max-height: 50px;

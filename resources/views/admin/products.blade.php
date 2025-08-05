@@ -13,6 +13,19 @@
     padding: 20px;
 }
 
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+        margin: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 5px;
+    }
+}
+
 /* Card Styling */
 .card {
     border: none;
