@@ -102,15 +102,6 @@ class AdminController extends Controller
     }
 
     /**
-     * Show the create form for a new product
-     */
-    public function createProduct()
-    {
-        $categories = Category::all();
-        return view('admin.products.create', compact('categories'));
-    }
-
-    /**
      * Store a new product
      */
     public function storeProduct(Request $request)
@@ -145,15 +136,6 @@ class AdminController extends Controller
         Product::create($data);
 
         return redirect()->back()->with('success', 'Product created successfully!');
-    }
-
-    /**
-     * Show the edit form for a product
-     */
-    public function editProduct(Product $product)
-    {
-        $categories = Category::all();
-        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     /**
