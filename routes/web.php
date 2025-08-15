@@ -55,6 +55,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     // Product Management
     Route::get('/products', [AdminController::class, 'products'])->name('admin.products');
+    Route::get('/products/create', [AdminController::class, 'createProduct'])->name('admin.products.create');
     Route::get('/products/{product}/edit', [AdminController::class, 'editProduct'])->name('admin.products.edit');
     Route::post('/products', [AdminController::class, 'storeProduct'])->name('admin.products.store');
     Route::put('/products/{product}', [AdminController::class, 'updateProduct'])->name('admin.products.update');
