@@ -411,6 +411,14 @@ form[style*="display:inline-block"] {
     </div>
     @endif
 
+    <!-- Create New Product Button -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Products Management</h2>
+        <a href="{{ route('admin.products.create') }}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Create New Product
+        </a>
+    </div>
+
     <div class="card shadow mb-4">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0">Add New Product</h5>
