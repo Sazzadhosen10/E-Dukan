@@ -23,6 +23,10 @@ Route::prefix('shop')->group(function () {
     // Cart and Checkout (requires authentication)
     Route::middleware('auth')->group(function () {
         Route::get('/cart', [ShopController::class, 'cart'])->name('shop.cart');
+        Route::post('/cart/add', [ShopController::class, 'addToCart'])->name('shop.cart.add');
+        Route::post('/cart/update', [ShopController::class, 'updateCartQuantity'])->name('shop.cart.update');
+        Route::post('/cart/remove', [ShopController::class, 'removeFromCart'])->name('shop.cart.remove');
+        Route::post('/buy-now', [ShopController::class, 'buyNow'])->name('shop.buy.now');
         Route::get('/checkout', [ShopController::class, 'checkout'])->name('shop.checkout');
         Route::get('/profile', [ShopController::class, 'profile'])->name('shop.profile');
     });
