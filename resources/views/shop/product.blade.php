@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $product->name }} – E-Dukan</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -21,15 +20,15 @@
                 </div>
                 <div class="col-md-6 text-end">
                     @auth
-                    <span>Hello, {{ Auth::user()->name }}!</span>
-                    <a href="{{ route('logout') }}" class="text-white ms-2"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
+                        <span>Hello, {{ Auth::user()->name }}!</span>
+                        <a href="{{ route('logout') }}" class="text-white ms-2"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     @else
-                    <a href="{{ route('login') }}" class="text-white">Login</a>
-                    <a href="{{ route('register') }}" class="text-white ms-2">Register</a>
+                        <a href="{{ route('login') }}" class="text-white">Login</a>
+                        <a href="{{ route('register') }}" class="text-white ms-2">Register</a>
                     @endauth
                 </div>
             </div>
@@ -46,20 +45,25 @@
 
                 <div class="search-container flex-grow-1 mx-4">
                     <form action="{{ route('shop.search') }}" method="GET" class="d-flex">
-                        <input type="text" name="q" class="form-control" placeholder="Search in E-Dukan" value="{{ request('q') }}">
+                        <input type="text" name="q" class="form-control" placeholder="Search in E-Dukan"
+                            value="{{ request('q') }}">
                         <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
                     </form>
                 </div>
 
                 <div class="navbar-nav">
-                    @auth
-                    <a href="{{ route('shop.cart') }}" class="nav-link">
+                    <a href="{{ route('shop.cart') }}" class="nav-link position-relative">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="badge bg-primary" id="cart-count">{{ count(session('cart', [])) }}</span>
+                        @if($cartCount > 0)
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ $cartCount }}
+                            </span>
+                        @endif
                     </a>
-                    <a href="{{ route('shop.profile') }}" class="nav-link">
-                        <i class="fas fa-user"></i>
-                    </a>
+                    @auth
+                        <a href="{{ route('shop.profile') }}" class="nav-link">
+                            <i class="fas fa-user"></i>
+                        </a>
                     @endauth
                 </div>
             </div>
@@ -72,7 +76,9 @@
             <nav aria-label="breadcrumb" class="mb-4">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('shop.index') }}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('shop.category', $product->category->id) }}">{{ $product->category->name }}</a></li>
+                    <li class="breadcrumb-item"><a
+                            href="{{ route('shop.category', $product->category->id) }}">{{ $product->category->name }}</a>
+                    </li>
                     <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
                 </ol>
             </nav>
@@ -82,11 +88,12 @@
                 <div class="col-md-6">
                     <div class="product-image">
                         @if($product->image)
-                        <img src="{{ asset($product->image) }}" class="img-fluid rounded" alt="{{ $product->name }}">
+                            <img src="{{ asset($product->image) }}" class="img-fluid rounded" alt="{{ $product->name }}">
                         @else
-                        <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 400px;">
-                            <i class="fas fa-image fa-5x text-muted"></i>
-                        </div>
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                                style="height: 400px;">
+                                <i class="fas fa-image fa-5x text-muted"></i>
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -105,13 +112,13 @@
 
                         <div class="stock mb-4">
                             @if($product->stock > 0)
-                            <span class="badge bg-success">
-                                <i class="fas fa-check"></i> In Stock ({{ $product->stock }} available)
-                            </span>
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check"></i> In Stock ({{ $product->stock }} available)
+                                </span>
                             @else
-                            <span class="badge bg-danger">
-                                <i class="fas fa-times"></i> Out of Stock
-                            </span>
+                                <span class="badge bg-danger">
+                                    <i class="fas fa-times"></i> Out of Stock
+                                </span>
                             @endif
                         </div>
 
@@ -121,51 +128,40 @@
                         </div>
 
                         @if($product->stock > 0)
-                        @auth
-                        <div class="actions">
-                            <!-- Quantity Field - Moved Above Buttons -->
-                            <div class="mb-3">
-                                <label for="quantity" class="form-label fw-bold">Quantity:</label>
-                                <div class="input-group" style="max-width: 200px;">
-                                    <span class="input-group-text">Qty</span>
-                                    <input type="number" class="form-control" value="1" min="1" max="{{ $product->stock }}" id="quantity">
+                            <form action="{{ route('cart.add', $product) }}" method="POST">
+                                @csrf
+                                <div class="actions">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-2">
+                                            <div class="input-group">
+                                                <span class="input-group-text">Qty</span>
+                                                <input type="number" class="form-control" name="quantity" value="1" min="1"
+                                                    max="{{ $product->stock }}" id="quantity">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <button type="submit" class="btn btn-primary btn-lg me-2">
+                                                <i class="fas fa-cart-plus"></i> Add to Cart
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger btn-lg">
+                                                <i class="fas fa-heart"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <!-- Action Buttons - All in One Line -->
-                            <div class="d-flex gap-2 flex-wrap">
-                                <!-- Buy Now Form -->
-                                <form action="{{ route('shop.buy.now') }}" method="POST" class="flex-fill" style="min-width: 120px;">
-                                    @csrf
-                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                    <input type="hidden" name="quantity" id="buy-now-quantity" value="1">
-                                    <button type="submit" class="btn btn-success btn-lg w-100">
-                                        <i class="fas fa-bolt"></i> Buy Now
-                                    </button>
-                                </form>
-                                
-                                <!-- Add to Cart Form -->
-                                <form action="{{ route('shop.cart.add') }}" method="POST" class="flex-fill" style="min-width: 120px;">
-                                    @csrf
-                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                    <input type="hidden" name="quantity" id="add-to-cart-quantity" value="1">
-                                    <button type="submit" class="btn btn-primary btn-lg w-100">
-                                        <i class="fas fa-cart-plus"></i> Add to Cart
-                                    </button>
-                                </form>
-                                
-                                <!-- Love Button -->
-                                <button class="btn btn-outline-danger btn-lg" style="min-width: 60px;" onclick="addToWishlist('{{ (int) $product->id }}')">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
+                            </form>
+
+                            @guest
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle"></i>
+                                    Please <a href="{{ route('login') }}">login</a> to add items to cart.
+                                </div>
+                            @endguest
                         @else
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle"></i>
-                            Please <a href="{{ route('login') }}">login</a> to add items to cart.
-                        </div>
-                        @endauth
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                This product is currently out of stock.
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -173,37 +169,42 @@
 
             <!-- Related Products -->
             @if($relatedProducts->count() > 0)
-            <div class="related-products mt-5">
-                <h3 class="mb-4">Related Products</h3>
-                <div class="row">
-                    @foreach($relatedProducts as $relatedProduct)
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                        <div class="card h-100">
-                            @if($relatedProduct->image)
-                            <img src="{{ asset($relatedProduct->image) }}" class="card-img-top" alt="{{ $relatedProduct->name }}" style="height: 200px; object-fit: cover;">
-                            @else
-                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                <i class="fas fa-image fa-3x text-muted"></i>
-                            </div>
-                            @endif
-                            <div class="card-body d-flex flex-column">
-                                <h6 class="card-title">{{ $relatedProduct->name }}</h6>
-                                <p class="card-text text-muted small">{{ Str::limit($relatedProduct->description, 60) }}</p>
-                                <div class="mt-auto">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="h6 text-primary">${{ number_format($relatedProduct->price, 2) }}</span>
-                                        <small class="text-muted">Stock: {{ $relatedProduct->stock }}</small>
-                                    </div>
-                                    <div class="d-grid mt-2">
-                                        <a href="{{ route('shop.product', $relatedProduct->id) }}" class="btn btn-outline-primary btn-sm">View Details</a>
+                <div class="related-products mt-5">
+                    <h3 class="mb-4">Related Products</h3>
+                    <div class="row">
+                        @foreach($relatedProducts as $relatedProduct)
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                                <div class="card h-100">
+                                    @if($relatedProduct->image)
+                                        <img src="{{ asset($relatedProduct->image) }}" class="card-img-top"
+                                            alt="{{ $relatedProduct->name }}" style="height: 200px; object-fit: cover;">
+                                    @else
+                                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
+                                            style="height: 200px;">
+                                            <i class="fas fa-image fa-3x text-muted"></i>
+                                        </div>
+                                    @endif
+                                    <div class="card-body d-flex flex-column">
+                                        <h6 class="card-title">{{ $relatedProduct->name }}</h6>
+                                        <p class="card-text text-muted small">{{ Str::limit($relatedProduct->description, 60) }}
+                                        </p>
+                                        <div class="mt-auto">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span
+                                                    class="h6 text-primary">${{ number_format($relatedProduct->price, 2) }}</span>
+                                                <small class="text-muted">Stock: {{ $relatedProduct->stock }}</small>
+                                            </div>
+                                            <div class="d-grid mt-2">
+                                                <a href="{{ route('shop.product', $relatedProduct->id) }}"
+                                                    class="btn btn-outline-primary btn-sm">View Details</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
-            </div>
             @endif
         </div>
     </main>
@@ -224,43 +225,6 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Custom JavaScript -->
-    <script>
-        // Update quantity fields when user changes quantity input
-        document.getElementById('quantity').addEventListener('change', function() {
-            const quantity = this.value;
-            document.getElementById('buy-now-quantity').value = quantity;
-            document.getElementById('add-to-cart-quantity').value = quantity;
-        });
-
-        // Add to wishlist functionality
-        function addToWishlist(productId) {
-            // You can implement wishlist functionality here
-            // For now, just show a simple alert
-            alert('Product added to wishlist!');
-            
-            // Optional: Change button appearance
-            const loveBtn = event.target.closest('button');
-            if (loveBtn) {
-                loveBtn.classList.remove('btn-outline-danger');
-                loveBtn.classList.add('btn-danger');
-            }
-        }
-
-        // Show success/error messages
-    </script>
-    @if(session('success'))
-        <script>
-            alert("{!! addslashes(session('success')) !!}");
-        </script>
-    @endif
-
-    @if(session('error'))
-        <script>
-            alert("{!! addslashes(session('error')) !!}");
-        </script>
-    @endif
 </body>
 
 </html>
