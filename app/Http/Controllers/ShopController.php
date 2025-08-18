@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Slider;
+use App\Models\Order;
+use App\Models\HomepageSection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class ShopController extends Controller
 {
@@ -13,16 +17,73 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $products = Product::visible()
+        // Get sliders (guarded if table doesn't exist yet)
+        $sliders = collect();
+        if (Schema::hasTable('sliders')) {
+            $sliders = Slider::active()->ordered()->get();
+        }
+
+        // Get featured products
+        $featuredProducts = Product::visible()
+            ->inStock()
+            ->with('category')
+            ->take(8)
+            ->get();
+
+        // Get new arrivals (latest products)
+        $newArrivals = Product::visible()
             ->inStock()
             ->with('category')
             ->latest()
-            ->take(12)
+            ->take(8)
             ->get();
 
+        // Get best selling products (mock for now - you can implement based on order items later)
+        $bestSellers = Product::visible()
+            ->inStock()
+            ->with('category')
+            ->inRandomOrder()
+            ->take(8)
+            ->get();
+
+        // Get main categories with images for featured categories section
+        $featuredCategories = Category::visible()
+            ->whereNull('parent_id')
+            ->whereNotNull('image')
+            ->take(8)
+            ->get();
+
+        // Get all categories for navigation
         $categories = Category::visible()->get();
 
-        return view('shop.index', compact('products', 'categories'));
+        // Get homepage sections (value proposition, testimonials, etc.)
+        $valuePropSections = HomepageSection::bySection('value_proposition')
+            ->active()
+            ->ordered()
+            ->get();
+
+        $testimonials = HomepageSection::bySection('testimonials')
+            ->active()
+            ->ordered()
+            ->take(6)
+            ->get();
+
+        $brandPartners = HomepageSection::bySection('brand_partners')
+            ->active()
+            ->ordered()
+            ->get();
+
+        return view('shop.index', compact(
+            'sliders',
+            'featuredProducts',
+            'newArrivals',
+            'bestSellers',
+            'featuredCategories',
+            'categories',
+            'valuePropSections',
+            'testimonials',
+            'brandPartners'
+        ));
     }
 
     /**
@@ -87,11 +148,17 @@ class ShopController extends Controller
     }
 
     /**
-     * Display user profile
+     * Display user profile with order history
      */
     public function profile()
     {
-        return view('shop.profile');
+        $user = auth()->user();
+        $orders = Order::where('user_id', $user->id)
+            ->with('orderItems.product')
+            ->latest()
+            ->paginate(10);
+
+        return view('shop.profile', compact('user', 'orders'));
     }
 
     /**

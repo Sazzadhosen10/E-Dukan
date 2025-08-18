@@ -16,7 +16,7 @@ body {
 header {
     background-color: #2c3e50;
     padding: 1rem 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 nav {
@@ -62,7 +62,7 @@ h2 {
     background: white;
     padding: 5rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
 }
 
@@ -119,7 +119,7 @@ h2 {
     background: white;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .admin-table th,
@@ -187,6 +187,7 @@ h2 {
     background-color: white;
     cursor: pointer;
 }
+
 /* Main */
 main {
     display: flex;
@@ -197,22 +198,25 @@ main {
     padding: 2rem;
     background-color: #288fcb;
     border-radius: 15px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.admin-main-title-category{
+
+.admin-main-title-category {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 3rem;
 }
-.admin-table-down{
+
+.admin-table-down {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12rem;
 }
+
 /* Footer */
 footer {
     background-color: #2c3e50;
@@ -220,6 +224,265 @@ footer {
     text-align: center;
     padding: 2rem 0;
     margin-top: 4rem;
+}
+
+/* Modern Admin Layout */
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Professional Sidebar Styles */
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    overflow-y: auto;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.sidebar-brand {
+    padding: 1.5rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+}
+
+.sidebar-brand-text {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 1rem 0;
+}
+
+.sidebar-heading {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar .nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar .nav-item {
+    margin-bottom: 0.25rem;
+}
+
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding-left: 1.5rem;
+    transform: translateX(5px);
+}
+
+.sidebar .nav-link.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border-left: 3px solid #fff;
+}
+
+.sidebar .nav-link i {
+    width: 20px;
+    margin-right: 0.75rem;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.sidebar .nav-link span {
+    font-weight: 500;
+}
+
+/* Main content adjustment for sidebar */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    min-height: 100vh;
+    background: #f8f9fa;
+    transition: margin-left 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Top Bar Styles */
+.topbar {
+    background: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e3e6f0;
+}
+
+.topbar .dropdown-toggle {
+    text-decoration: none;
+    color: #5a5c69;
+    display: flex;
+    align-items: center;
+}
+
+.topbar .dropdown-toggle:hover {
+    color: #667eea;
+}
+
+/* Content Wrapper */
+.content-wrapper {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+/* Stats cards enhancements */
+.stat-card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.border-left-primary {
+    border-left: 4px solid #4e73df !important;
+}
+
+.border-left-success {
+    border-left: 4px solid #1cc88a !important;
+}
+
+.border-left-info {
+    border-left: 4px solid #36b9cc !important;
+}
+
+.border-left-warning {
+    border-left: 4px solid #f6c23e !important;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #5a5c69;
+}
+
+/* Mobile responsive sidebar */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .sidebar-toggle {
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1001;
+        background: #667eea;
+        border: none;
+        color: white;
+        padding: 0.5rem;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* Enhanced table styles */
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+.table thead th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(102, 126, 234, 0.05);
+}
+
+/* Button enhancements */
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Card enhancements */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 10px 10px 0 0 !important;
 }
 
 /* Responsive Design */

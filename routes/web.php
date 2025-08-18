@@ -3,6 +3,9 @@
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root to shop
@@ -20,10 +23,17 @@ Route::prefix('shop')->group(function () {
     Route::get('/product/{id}', [ShopController::class, 'product'])->name('shop.product');
     Route::get('/search', [ShopController::class, 'search'])->name('shop.search');
 
-    // Cart and Checkout (requires authentication)
+    // Cart and Checkout
+    Route::get('/cart', [CartController::class, 'index'])->name('shop.cart');
+    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::patch('/cart/update/{cartItem}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{cartItem}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+
     Route::middleware('auth')->group(function () {
-        Route::get('/cart', [ShopController::class, 'cart'])->name('shop.cart');
-        Route::get('/checkout', [ShopController::class, 'checkout'])->name('shop.checkout');
+        Route::get('/checkout', [CheckoutController::class, 'index'])->name('shop.checkout');
+        Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+        Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
         Route::get('/profile', [ShopController::class, 'profile'])->name('shop.profile');
     });
 });
@@ -33,6 +43,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // User Dashboard Routes
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/my-orders', [UserDashboardController::class, 'orders'])->name('user.orders');
+    Route::get('/my-profile', [UserDashboardController::class, 'profile'])->name('user.profile');
 });
 
 // Admin Routes (requires admin authentication)
@@ -61,17 +76,18 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::put('/products/{product}', [AdminController::class, 'updateProduct'])->name('admin.products.update');
     Route::delete('/products/{product}', [AdminController::class, 'destroyProduct'])->name('admin.products.destroy');
 
+    // Slider Management
+    Route::get('/sliders', [AdminController::class, 'sliders'])->name('admin.sliders');
+    Route::post('/sliders', [AdminController::class, 'storeSlider'])->name('admin.sliders.store');
+    Route::put('/sliders/{slider}', [AdminController::class, 'updateSlider'])->name('admin.sliders.update');
+    Route::delete('/sliders/{slider}', [AdminController::class, 'destroySlider'])->name('admin.sliders.destroy');
+
     // Orders
     Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders');
+    Route::patch('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('admin.orders.updateStatus');
 });
 
 // Admin Login (separate from regular login)
 Route::get('image.png/admin/login', function () {
     return view('admin.login');
 })->name('admin.login');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});

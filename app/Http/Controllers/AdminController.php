@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Slider;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -20,8 +22,10 @@ class AdminController extends Controller
         $totalCategories = Category::count();
         $totalUsers = User::where('is_admin', false)->count();
         $totalAdmins = User::where('is_admin', true)->count();
+        $totalSliders = Slider::count();
+        $totalOrders = Order::count();
 
-        return view('admin.dashboard', compact('totalProducts', 'totalCategories', 'totalUsers', 'totalAdmins'));
+        return view('admin.dashboard', compact('totalProducts', 'totalCategories', 'totalUsers', 'totalAdmins', 'totalSliders', 'totalOrders'));
     }
 
     /**
@@ -38,8 +42,13 @@ class AdminController extends Controller
      */
     public function categories()
     {
-        $categories = Category::latest()->paginate(10);
-        return view('admin.categories', compact('categories'));
+        $categories = Category::with('parent', 'subcategories')
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->paginate(15);
+        $parentCategories = Category::parents()->active()->ordered()->get();
+
+        return view('admin.categories', compact('categories', 'parentCategories'));
     }
 
     /**
@@ -50,14 +59,30 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'parent_id' => 'nullable|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
         ]);
 
-        Category::create([
+        $categoryData = [
             'name' => $request->name,
             'description' => $request->description,
+            'parent_id' => $request->parent_id,
             'is_visible' => $request->boolean('is_visible', true),
-        ]);
+            'is_active' => $request->has('is_active'),
+            'sort_order' => $request->sort_order ?? 0,
+        ];
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/categories'), $imageName);
+            $categoryData['image'] = 'images/categories/' . $imageName;
+        }
+
+        Category::create($categoryData);
 
         return redirect()->back()->with('success', 'Category created successfully!');
     }
@@ -70,14 +95,35 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'parent_id' => 'nullable|exists:categories,id|not_in:' . $category->id,
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
         ]);
 
-        $category->update([
+        $categoryData = [
             'name' => $request->name,
             'description' => $request->description,
+            'parent_id' => $request->parent_id,
             'is_visible' => $request->boolean('is_visible'),
-        ]);
+            'is_active' => $request->has('is_active'),
+            'sort_order' => $request->sort_order ?? 0,
+        ];
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($category->image && file_exists(public_path($category->image))) {
+                unlink(public_path($category->image));
+            }
+
+            $image = $request->file('image');
+            $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/categories'), $imageName);
+            $categoryData['image'] = 'images/categories/' . $imageName;
+        }
+
+        $category->update($categoryData);
 
         return redirect()->back()->with('success', 'Category updated successfully!');
     }
@@ -87,6 +133,21 @@ class AdminController extends Controller
      */
     public function destroyCategory(Category $category)
     {
+        // Check if category has products
+        if ($category->products()->exists()) {
+            return redirect()->back()->with('error', 'Cannot delete category that has products. Please move or delete the products first.');
+        }
+
+        // Check if category has subcategories
+        if ($category->subcategories()->exists()) {
+            return redirect()->back()->with('error', 'Cannot delete category that has subcategories. Please delete the subcategories first.');
+        }
+
+        // Delete image if exists
+        if ($category->image && file_exists(public_path($category->image))) {
+            unlink(public_path($category->image));
+        }
+
         $category->delete();
         return redirect()->back()->with('success', 'Category deleted successfully!');
     }
@@ -213,11 +274,32 @@ class AdminController extends Controller
     }
 
     /**
-     * Display orders (placeholder)
+     * Display orders management
      */
     public function orders()
     {
-        return view('admin.orders');
+        $orders = Order::with(['user', 'orderItems'])
+            ->latest()
+            ->paginate(15);
+
+        return view('admin.orders', compact('orders'));
+    }
+
+    /**
+     * Update order status
+     */
+    public function updateOrderStatus(Request $request, Order $order)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,processing,shipped,delivered,cancelled'
+        ]);
+
+        $order->update([
+            'status' => $request->status,
+            'delivered_at' => $request->status === 'delivered' ? now() : null
+        ]);
+
+        return redirect()->back()->with('success', 'Order status updated successfully!');
     }
 
     /**
@@ -237,5 +319,107 @@ class AdminController extends Controller
 
         $user->delete();
         return redirect()->back()->with('success', 'User deleted successfully!');
+    }
+
+    /**
+     * Display sliders management
+     */
+    public function sliders()
+    {
+        $sliders = Slider::ordered()->paginate(10);
+        return view('admin.sliders', compact('sliders'));
+    }
+
+    /**
+     * Store a new slider
+     */
+    public function storeSlider(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'button_text' => 'nullable|string|max:100',
+            'button_link' => 'nullable|url|max:255',
+            'sort_order' => 'nullable|integer|min:0',
+            'is_active' => 'boolean',
+        ]);
+
+        $data = [
+            'title' => $request->title,
+            'description' => $request->description,
+            'button_text' => $request->button_text,
+            'button_link' => $request->button_link,
+            'sort_order' => $request->sort_order ?? 0,
+            'is_active' => $request->boolean('is_active', true),
+        ];
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = Str::random(20) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/sliders'), $imageName);
+            $data['image'] = 'images/sliders/' . $imageName;
+        }
+
+        Slider::create($data);
+
+        return redirect()->back()->with('success', 'Slider created successfully!');
+    }
+
+    /**
+     * Update a slider
+     */
+    public function updateSlider(Request $request, Slider $slider)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'button_text' => 'nullable|string|max:100',
+            'button_link' => 'nullable|url|max:255',
+            'sort_order' => 'nullable|integer|min:0',
+            'is_active' => 'boolean',
+        ]);
+
+        $data = [
+            'title' => $request->title,
+            'description' => $request->description,
+            'button_text' => $request->button_text,
+            'button_link' => $request->button_link,
+            'sort_order' => $request->sort_order ?? 0,
+            'is_active' => $request->boolean('is_active'),
+        ];
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($slider->image && file_exists(public_path($slider->image))) {
+                unlink(public_path($slider->image));
+            }
+
+            $image = $request->file('image');
+            $imageName = Str::random(20) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/sliders'), $imageName);
+            $data['image'] = 'images/sliders/' . $imageName;
+        }
+
+        $slider->update($data);
+
+        return redirect()->back()->with('success', 'Slider updated successfully!');
+    }
+
+    /**
+     * Delete a slider
+     */
+    public function destroySlider(Slider $slider)
+    {
+        // Delete image if exists
+        if ($slider->image && file_exists(public_path($slider->image))) {
+            unlink(public_path($slider->image));
+        }
+
+        $slider->delete();
+        return redirect()->back()->with('success', 'Slider deleted successfully!');
     }
 }
