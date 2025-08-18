@@ -136,7 +136,93 @@ class ShopController extends Controller
      */
     public function cart()
     {
-        return view('shop.cart');
+        // Get cart items from session
+        $cartItems = session()->get('cart', []);
+        $products = [];
+        $total = 0;
+
+        foreach ($cartItems as $productId => $item) {
+            $product = Product::find($productId);
+            if ($product) {
+                $products[] = [
+                    'product' => $product,
+                    'quantity' => $item['quantity'],
+                    'subtotal' => $product->price * $item['quantity']
+                ];
+                $total += $product->price * $item['quantity'];
+            }
+        }
+
+        return view('shop.cart', compact('products', 'total'));
+    }
+
+    /**
+     * Add item to cart
+     */
+    public function addToCart(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1'
+        ]);
+
+        $product = Product::findOrFail($request->product_id);
+        
+        if ($product->stock < $request->quantity) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Not enough stock available'
+            ]);
+        }
+
+        $cart = session()->get('cart', []);
+        
+        // Always replace the quantity (don't add to existing)
+        $cart[$request->product_id] = [
+            'quantity' => $request->quantity,
+            'name' => $product->name,
+            'price' => $product->price,
+            'image' => $product->image
+        ];
+
+        session()->put('cart', $cart);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Product added to cart successfully',
+            'cart_count' => count($cart)
+        ]);
+    }
+
+    /**
+     * Buy now - redirect to checkout with single item
+     */
+    public function buyNow(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1'
+        ]);
+
+        $product = Product::findOrFail($request->product_id);
+        
+        if ($product->stock < $request->quantity) {
+            return back()->with('error', 'Not enough stock available');
+        }
+
+        // Clear cart and add only this item
+        $cart = [
+            $request->product_id => [
+                'quantity' => $request->quantity,
+                'name' => $product->name,
+                'price' => $product->price,
+                'image' => $product->image
+            ]
+        ];
+
+        session()->put('cart', $cart);
+
+        return redirect()->route('shop.checkout');
     }
 
     /**
@@ -144,7 +230,94 @@ class ShopController extends Controller
      */
     public function checkout()
     {
-        return view('shop.checkout');
+        $cartItems = session()->get('cart', []);
+        
+        if (empty($cartItems)) {
+            return redirect()->route('shop.index')->with('error', 'Your cart is empty');
+        }
+
+        $products = [];
+        $total = 0;
+
+        foreach ($cartItems as $productId => $item) {
+            $product = Product::find($productId);
+            if ($product) {
+                $products[] = [
+                    'product' => $product,
+                    'quantity' => $item['quantity'],
+                    'subtotal' => $product->price * $item['quantity']
+                ];
+                $total += $product->price * $item['quantity'];
+            }
+        }
+
+        return view('shop.checkout', compact('products', 'total'));
+    }
+
+    /**
+     * Update cart item quantity
+     */
+    public function updateCartQuantity(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1'
+        ]);
+
+        $product = Product::findOrFail($request->product_id);
+        
+        if ($product->stock < $request->quantity) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Not enough stock available'
+            ]);
+        }
+
+        $cart = session()->get('cart', []);
+        
+        if (isset($cart[$request->product_id])) {
+            $cart[$request->product_id]['quantity'] = $request->quantity;
+            session()->put('cart', $cart);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Quantity updated successfully',
+                'cart_count' => count($cart)
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Product not found in cart'
+        ]);
+    }
+
+    /**
+     * Remove item from cart
+     */
+    public function removeFromCart(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id'
+        ]);
+
+        $cart = session()->get('cart', []);
+        
+        if (isset($cart[$request->product_id])) {
+            unset($cart[$request->product_id]);
+            session()->put('cart', $cart);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Product removed from cart successfully',
+                'cart_count' => count($cart)
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Product not found in cart'
+        ]);
     }
 
     /**
