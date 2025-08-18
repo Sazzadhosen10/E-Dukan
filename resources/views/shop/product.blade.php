@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $product->name }} – E-Dukan</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -54,7 +55,7 @@
                     @auth
                     <a href="{{ route('shop.cart') }}" class="nav-link">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="badge bg-primary">0</span>
+                        <span class="badge bg-primary" id="cart-count">{{ count(session('cart', [])) }}</span>
                     </a>
                     <a href="{{ route('shop.profile') }}" class="nav-link">
                         <i class="fas fa-user"></i>
@@ -122,21 +123,41 @@
                         @if($product->stock > 0)
                         @auth
                         <div class="actions">
-                            <div class="row">
-                                <div class="col-md-4 mb-2">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Qty</span>
-                                        <input type="number" class="form-control" value="1" min="1" max="{{ $product->stock }}" id="quantity">
-                                    </div>
+                            <!-- Quantity Field - Moved Above Buttons -->
+                            <div class="mb-3">
+                                <label for="quantity" class="form-label fw-bold">Quantity:</label>
+                                <div class="input-group" style="max-width: 200px;">
+                                    <span class="input-group-text">Qty</span>
+                                    <input type="number" class="form-control" value="1" min="1" max="{{ $product->stock }}" id="quantity">
                                 </div>
-                                <div class="col-md-8">
-                                    <button class="btn btn-primary btn-lg me-2">
+                            </div>
+                            
+                            <!-- Action Buttons - All in One Line -->
+                            <div class="d-flex gap-2 flex-wrap">
+                                <!-- Buy Now Form -->
+                                <form action="{{ route('shop.buy.now') }}" method="POST" class="flex-fill" style="min-width: 120px;">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <input type="hidden" name="quantity" id="buy-now-quantity" value="1">
+                                    <button type="submit" class="btn btn-success btn-lg w-100">
+                                        <i class="fas fa-bolt"></i> Buy Now
+                                    </button>
+                                </form>
+                                
+                                <!-- Add to Cart Form -->
+                                <form action="{{ route('shop.cart.add') }}" method="POST" class="flex-fill" style="min-width: 120px;">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <input type="hidden" name="quantity" id="add-to-cart-quantity" value="1">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100">
                                         <i class="fas fa-cart-plus"></i> Add to Cart
                                     </button>
-                                    <button class="btn btn-outline-danger btn-lg">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                </div>
+                                </form>
+                                
+                                <!-- Love Button -->
+                                <button class="btn btn-outline-danger btn-lg" style="min-width: 60px;" onclick="addToWishlist('{{ (int) $product->id }}')">
+                                    <i class="fas fa-heart"></i>
+                                </button>
                             </div>
                         </div>
                         @else
@@ -203,6 +224,43 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Update quantity fields when user changes quantity input
+        document.getElementById('quantity').addEventListener('change', function() {
+            const quantity = this.value;
+            document.getElementById('buy-now-quantity').value = quantity;
+            document.getElementById('add-to-cart-quantity').value = quantity;
+        });
+
+        // Add to wishlist functionality
+        function addToWishlist(productId) {
+            // You can implement wishlist functionality here
+            // For now, just show a simple alert
+            alert('Product added to wishlist!');
+            
+            // Optional: Change button appearance
+            const loveBtn = event.target.closest('button');
+            if (loveBtn) {
+                loveBtn.classList.remove('btn-outline-danger');
+                loveBtn.classList.add('btn-danger');
+            }
+        }
+
+        // Show success/error messages
+    </script>
+    @if(session('success'))
+        <script>
+            alert("{!! addslashes(session('success')) !!}");
+        </script>
+    @endif
+
+    @if(session('error'))
+        <script>
+            alert("{!! addslashes(session('error')) !!}");
+        </script>
+    @endif
 </body>
 
 </html>
