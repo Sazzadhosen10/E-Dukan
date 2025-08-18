@@ -31,18 +31,9 @@ Route::prefix('shop')->group(function () {
     Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 
     Route::middleware('auth')->group(function () {
-<<<<<<< HEAD
         Route::get('/checkout', [CheckoutController::class, 'index'])->name('shop.checkout');
         Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
         Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
-=======
-        Route::get('/cart', [ShopController::class, 'cart'])->name('shop.cart');
-        Route::post('/cart/add', [ShopController::class, 'addToCart'])->name('shop.cart.add');
-        Route::post('/cart/update', [ShopController::class, 'updateCartQuantity'])->name('shop.cart.update');
-        Route::post('/cart/remove', [ShopController::class, 'removeFromCart'])->name('shop.cart.remove');
-        Route::post('/buy-now', [ShopController::class, 'buyNow'])->name('shop.buy.now');
-        Route::get('/checkout', [ShopController::class, 'checkout'])->name('shop.checkout');
->>>>>>> c7ecb9937264f1b499d05986f244f8e0bc6b429b
         Route::get('/profile', [ShopController::class, 'profile'])->name('shop.profile');
     });
 });

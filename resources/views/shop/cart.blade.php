@@ -19,15 +19,15 @@
                 </div>
                 <div class="col-md-6 text-end">
                     @auth
-                        <span>Hello, {{ Auth::user()->name }}!</span>
-                        <a href="{{ route('logout') }}" class="text-white ms-2"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
+                    <span>Hello, {{ Auth::user()->name }}!</span>
+                    <a href="{{ route('logout') }}" class="text-white ms-2"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                     @else
-                        <a href="{{ route('login') }}" class="text-white">Login</a>
-                        <a href="{{ route('register') }}" class="text-white ms-2">Register</a>
+                    <a href="{{ route('login') }}" class="text-white">Login</a>
+                    <a href="{{ route('register') }}" class="text-white ms-2">Register</a>
                     @endauth
                 </div>
             </div>
@@ -38,14 +38,12 @@
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('shop.index') }}">
-                    <img src="{{ asset('images/E_Dokan.jpg') }}" alt="E-Dukan Logo" class="logo-img" height="60"
-                        style="max-width: 200px; object-fit: contain;">
+                    <img src="{{ asset('images/E_Dokan.jpg') }}" alt="E-Dukan Logo" class="logo-img" height="60" style="max-width: 200px; object-fit: contain;">
                 </a>
 
                 <div class="search-container flex-grow-1 mx-4">
                     <form action="{{ route('shop.search') }}" method="GET" class="d-flex">
-                        <input type="text" name="q" class="form-control" placeholder="Search in E-Dukan"
-                            value="{{ request('q') }}">
+                        <input type="text" name="q" class="form-control" placeholder="Search in E-Dukan" value="{{ request('q') }}">
                         <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
                     </form>
                 </div>
@@ -54,15 +52,15 @@
                     <a href="{{ route('shop.cart') }}" class="nav-link position-relative">
                         <i class="fas fa-shopping-cart"></i>
                         @if($cartCount > 0)
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{ $cartCount }}
-                            </span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ $cartCount }}
+                        </span>
                         @endif
                     </a>
                     @auth
-                        <a href="{{ route('shop.profile') }}" class="nav-link">
-                            <i class="fas fa-user"></i>
-                        </a>
+                    <a href="{{ route('shop.profile') }}" class="nav-link">
+                        <i class="fas fa-user"></i>
+                    </a>
                     @endauth
                 </div>
             </div>
@@ -87,148 +85,147 @@
                         </div>
                         <div class="card-body">
                             @if(session('success'))
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    {{ session('success') }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
                             @endif
 
                             @if(session('error'))
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    {{ session('error') }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('error') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
                             @endif
 
                             @forelse($cartItems as $item)
-                                <div class="row align-items-center border-bottom py-3">
-                                    <div class="col-md-2">
-                                        @if($item->product->image)
-                                            <img src="{{ asset($item->product->image) }}" alt="{{ $item->product->name }}"
-                                                class="img-fluid rounded" style="width: 80px; height: 80px; object-fit: cover;">
-                                        @else
-                                            <div class="bg-light rounded d-flex align-items-center justify-content-center"
-                                                style="width: 80px; height: 80px;">
-                                                <i class="fas fa-image text-muted"></i>
-                                            </div>
-                                        @endif
+                            <div class="row align-items-center border-bottom py-3">
+                                <div class="col-md-2">
+                                    @if($item->product->image)
+                                    <img src="{{ asset($item->product->image) }}" alt="{{ $item->product->name }}"
+                                        class="img-fluid rounded" style="width: 80px; height: 80px; object-fit: cover;">
+                                    @else
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                                        style="width: 80px; height: 80px;">
+                                        <i class="fas fa-image text-muted"></i>
                                     </div>
-                                    <div class="col-md-4">
-                                        <h6 class="mb-1">{{ $item->product->name }}</h6>
-                                        <small class="text-muted">{{ Str::limit($item->product->description, 50) }}</small>
-                                        <br>
-                                        <span class="text-primary fw-bold">${{ number_format($item->price, 2) }}</span>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <form action="{{ route('cart.update', $item) }}" method="POST"
-                                            class="d-flex align-items-center">
-                                            @csrf
-                                            @method('PATCH')
-                                            <div class="input-group" style="max-width: 120px;">
-                                                <button class="btn btn-outline-secondary btn-sm" type="button"
-                                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown(); this.parentNode.querySelector('form').submit();">-</button>
-                                                <input type="number" name="quantity" value="{{ $item->quantity }}" min="1"
-                                                    max="{{ $item->product->stock }}" class="form-control text-center"
-                                                    onchange="this.form.submit()">
-                                                <button class="btn btn-outline-secondary btn-sm" type="button"
-                                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp(); this.parentNode.querySelector('form').submit();">+</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <span class="fw-bold">${{ number_format($item->total, 2) }}</span>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <form action="{{ route('cart.remove', $item) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-danger btn-sm"
-                                                onclick="return confirm('Remove this item from cart?')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
+                                    @endif
                                 </div>
+                                <div class="col-md-4">
+                                    <h6 class="mb-1">{{ $item->product->name }}</h6>
+                                    <small class="text-muted">{{ Str::limit($item->product->description, 50) }}</small>
+                                    <br>
+                                    <span class="text-primary fw-bold">${{ number_format($item->price, 2) }}</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <form action="{{ route('cart.update', $item) }}" method="POST" class="d-flex align-items-center">
+                                        @csrf
+                                        @method('PATCH')
+                                        <div class="input-group" style="max-width: 120px;">
+                                            <button class="btn btn-outline-secondary btn-sm" type="button"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown(); this.parentNode.querySelector('form').submit();">-</button>
+                                            <input type="number" name="quantity" value="{{ $item->quantity }}"
+                                                min="1" max="{{ $item->product->stock }}" class="form-control text-center"
+                                                onchange="this.form.submit()">
+                                            <button class="btn btn-outline-secondary btn-sm" type="button"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp(); this.parentNode.querySelector('form').submit();">+</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="fw-bold">${{ number_format($item->total, 2) }}</span>
+                                </div>
+                                <div class="col-md-1">
+                                    <form action="{{ route('cart.remove', $item) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger btn-sm"
+                                            onclick="return confirm('Remove this item from cart?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                             @empty
-                                <div class="text-center py-5">
-                                    <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
-                                    <h5>Your cart is empty</h5>
-                                    <p class="text-muted">Add some products to your cart to get started!</p>
-                                    <a href="{{ route('shop.index') }}" class="btn btn-primary">Continue Shopping</a>
-                                </div>
+                            <div class="text-center py-5">
+                                <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                                <h5>Your cart is empty</h5>
+                                <p class="text-muted">Add some products to your cart to get started!</p>
+                                <a href="{{ route('shop.index') }}" class="btn btn-primary">Continue Shopping</a>
+                            </div>
                             @endforelse
 
                             @if($cartItems->count() > 0)
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <form action="{{ route('cart.clear') }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger"
-                                            onclick="return confirm('Clear entire cart?')">
-                                            <i class="fas fa-trash me-1"></i>Clear Cart
-                                        </button>
-                                    </form>
-                                    <a href="{{ route('shop.index') }}" class="btn btn-outline-primary">
-                                        <i class="fas fa-arrow-left me-1"></i>Continue Shopping
-                                    </a>
-                                </div>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <form action="{{ route('cart.clear') }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger"
+                                        onclick="return confirm('Clear entire cart?')">
+                                        <i class="fas fa-trash me-1"></i>Clear Cart
+                                    </button>
+                                </form>
+                                <a href="{{ route('shop.index') }}" class="btn btn-outline-primary">
+                                    <i class="fas fa-arrow-left me-1"></i>Continue Shopping
+                                </a>
+                            </div>
                             @endif
                         </div>
                     </div>
                 </div>
 
                 @if($cartItems->count() > 0)
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-0">Order Summary</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <span>Subtotal ({{ $cartItems->sum('quantity') }} items):</span>
-                                    <span>${{ number_format($total, 2) }}</span>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <span>Shipping:</span>
-                                    <span class="text-success">Free</span>
-                                </div>
-                                <hr>
-                                <div class="d-flex justify-content-between">
-                                    <strong>Total:</strong>
-                                    <strong class="text-primary">${{ number_format($total, 2) }}</strong>
-                                </div>
-
-                                <div class="d-grid mt-3">
-                                    @auth
-                                        <a href="{{ route('shop.checkout') }}" class="btn btn-success btn-lg">
-                                            <i class="fas fa-credit-card me-1"></i>Proceed to Checkout
-                                        </a>
-                                    @else
-                                        <a href="{{ route('login') }}" class="btn btn-success btn-lg">
-                                            <i class="fas fa-sign-in-alt me-1"></i>Login to Checkout
-                                        </a>
-                                    @endauth
-                                </div>
-
-                                <div class="mt-3 text-center">
-                                    <small class="text-muted">
-                                        <i class="fas fa-lock me-1"></i>Secure checkout with SSL encryption
-                                    </small>
-                                </div>
-                            </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Order Summary</h5>
                         </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <span>Subtotal ({{ $cartItems->sum('quantity') }} items):</span>
+                                <span>${{ number_format($total, 2) }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Shipping:</span>
+                                <span class="text-success">Free</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <strong>Total:</strong>
+                                <strong class="text-primary">${{ number_format($total, 2) }}</strong>
+                            </div>
 
-                        <!-- Payment Methods -->
-                        <div class="card mt-3">
-                            <div class="card-body text-center">
-                                <h6 class="mb-2">We Accept</h6>
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <span class="badge bg-primary me-2">Cash on Delivery</span>
-                                    <i class="fas fa-truck fa-2x text-muted"></i>
-                                </div>
+                            <div class="d-grid mt-3">
+                                @auth
+                                <a href="{{ route('shop.checkout') }}" class="btn btn-success btn-lg">
+                                    <i class="fas fa-credit-card me-1"></i>Proceed to Checkout
+                                </a>
+                                @else
+                                <a href="{{ route('login') }}" class="btn btn-success btn-lg">
+                                    <i class="fas fa-sign-in-alt me-1"></i>Login to Checkout
+                                </a>
+                                @endauth
+                            </div>
+
+                            <div class="mt-3 text-center">
+                                <small class="text-muted">
+                                    <i class="fas fa-lock me-1"></i>Secure checkout with SSL encryption
+                                </small>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Payment Methods -->
+                    <div class="card mt-3">
+                        <div class="card-body text-center">
+                            <h6 class="mb-2">We Accept</h6>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="badge bg-primary me-2">Cash on Delivery</span>
+                                <i class="fas fa-truck fa-2x text-muted"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @endif
             </div>
         </div>
@@ -251,5 +248,4 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
