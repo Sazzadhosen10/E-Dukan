@@ -211,16 +211,16 @@
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <div class="flex-grow-1">
                                         <h6 class="mb-0">{{ $item->product->name }}</h6>
-                                        <small class="text-muted">Qty: {{ $item->quantity }} × ${{ number_format($item->price, 2) }}</small>
+                                        <small class="text-muted">Qty: {{ $item->quantity }} × @money($item->price)</small>
                                     </div>
-                                    <span class="fw-bold">${{ number_format($item->total, 2) }}</span>
+                                    <span class="fw-bold">@money($item->total)</span>
                                 </div>
                                 @endforeach
 
                                 <hr>
                                 <div class="d-flex justify-content-between">
                                     <span>Subtotal:</span>
-                                    <span>${{ number_format($total, 2) }}</span>
+                                    <span>@money($total)</span>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <span>Shipping:</span>
@@ -228,12 +228,12 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <span>Tax:</span>
-                                    <span>$0.00</span>
+                                    <span>৳0.00</span>
                                 </div>
                                 <hr>
                                 <div class="d-flex justify-content-between">
                                     <strong>Total:</strong>
-                                    <strong class="text-primary">${{ number_format($total, 2) }}</strong>
+                                    <strong class="text-primary">@money($total)</strong>
                                 </div>
                             </div>
                         </div>

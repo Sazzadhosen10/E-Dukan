@@ -554,7 +554,7 @@ form[style*="display:inline-block"] {
                                         @endif
                                     </td>
                                     <td>
-                                        <strong class="text-success">${{ number_format($product->price, 2) }}</strong>
+                                        <strong class="text-success">@money($product->price)</strong>
                                     </td>
                                     <td>
                                         @if($product->stock > 0)

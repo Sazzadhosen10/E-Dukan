@@ -108,7 +108,7 @@
                             </div>
                             <div class="mt-auto">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <span class="h5 text-primary">${{ number_format($product->price, 2) }}</span>
+                                    <span class="h5 text-primary">@money($product->price)</span>
                                     <small class="text-muted">Stock: {{ $product->stock }}</small>
                                 </div>
                                 <div class="d-grid mt-2">

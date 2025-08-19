@@ -12,14 +12,17 @@ sazzad
 git clone https://github.com/username/project.git
 cd project
 composer install
+composer update
 cp .env.example .env
 php artisan key:generate
-
-
+php artisan db:seed
 php artisan migrate
-
-
 php artisan serve
+
+//another terminal
+npm install
+npm run dev
+npm run build
 
 
 admin@example.com

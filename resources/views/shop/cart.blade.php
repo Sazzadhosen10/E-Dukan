@@ -115,7 +115,7 @@
                                     <h6 class="mb-1">{{ $item->product->name }}</h6>
                                     <small class="text-muted">{{ Str::limit($item->product->description, 50) }}</small>
                                     <br>
-                                    <span class="text-primary fw-bold">${{ number_format($item->price, 2) }}</span>
+                                    <span class="text-primary fw-bold">@money($item->price)</span>
                                 </div>
                                 <div class="col-md-3">
                                     <form action="{{ route('cart.update', $item) }}" method="POST" class="d-flex align-items-center">
@@ -133,7 +133,7 @@
                                     </form>
                                 </div>
                                 <div class="col-md-2">
-                                    <span class="fw-bold">${{ number_format($item->total, 2) }}</span>
+                                    <span class="fw-bold">@money($item->total)</span>
                                 </div>
                                 <div class="col-md-1">
                                     <form action="{{ route('cart.remove', $item) }}" method="POST" class="d-inline">
@@ -183,7 +183,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <span>Subtotal ({{ $cartItems->sum('quantity') }} items):</span>
-                                <span>${{ number_format($total, 2) }}</span>
+                                <span>@money($total)</span>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <span>Shipping:</span>
@@ -192,7 +192,7 @@
                             <hr>
                             <div class="d-flex justify-content-between">
                                 <strong>Total:</strong>
-                                <strong class="text-primary">${{ number_format($total, 2) }}</strong>
+                                <strong class="text-primary">@money($total)</strong>
                             </div>
 
                             <div class="d-grid mt-3">

@@ -442,46 +442,69 @@
         }
 
         .product-actions {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
         }
 
         .btn-add-cart {
-            flex: 1;
+            grid-column: 1 / span 1;
             background: var(--primary-color);
-            color: white;
+            color: #fff;
             border: none;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            box-shadow: 0 6px 14px rgba(44, 90, 160, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
         }
 
         .btn-add-cart:hover {
-            background: #1e3a8a;
-            color: white;
+            background: #224a8e;
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(44, 90, 160, 0.35);
         }
 
         .btn-buy-now {
-            width: 45px;
-            height: 45px;
-            border: 2px solid var(--accent-color);
-            background: var(--accent-color);
-            color: white;
-            border-radius: 8px;
-            display: flex;
+            grid-column: 2 / span 1;
+            background: linear-gradient(135deg, #ff6b35, #ff8a35);
+            color: #fff;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            box-shadow: 0 6px 14px rgba(255, 107, 53, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            font-size: 0.8rem;
+            gap: 8px;
         }
 
         .btn-buy-now:hover {
-            background: #e55a2b;
-            border-color: #e55a2b;
-            color: white;
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #e55a2b, #ff7a2b);
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(255, 107, 53, 0.35);
+        }
+
+        .btn-view-details {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            opacity: 0.9;
+            transition: color 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-view-details:hover {
+            color: var(--primary-color);
+            opacity: 1;
+            text-decoration: underline;
         }
 
         /* Testimonials */
@@ -997,28 +1020,49 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="product-card">
                         <div class="product-image">
-                            @if($product->image && file_exists(public_path($product->image)))
-                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
-                            @else
-                            <div class="d-flex align-items-center justify-content-center bg-light" style="height: 250px;">
-                                <i class="fas fa-image fa-3x text-muted"></i>
-                            </div>
-                            @endif
+                            <a href="{{ route('shop.product', $product->id) }}" class="d-block">
+                                @if($product->image && file_exists(public_path($product->image)))
+                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
+                                @else
+                                <div class="d-flex align-items-center justify-content-center bg-light" style="height: 250px;">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                                @endif
+                            </a>
                             <div class="product-badge">Featured</div>
                         </div>
                         <div class="product-info">
-                            <h6 class="product-title">{{ Str::limit($product->name, 50) }}</h6>
-                            <div class="product-price">${{ number_format($product->price, 2) }}</div>
+                            <h6 class="product-title"><a href="{{ route('shop.product', $product->id) }}" class="text-decoration-none text-dark">{{ Str::limit($product->name, 50) }}</a></h6>
+                            <div class="product-price">@money($product->price)</div>
                             <div class="product-actions">
-                                <form action="{{ route('cart.add', $product) }}" method="POST" class="flex-fill">
+                                @if($product->stock > 0)
+                                <form action="{{ route('cart.add', $product) }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="quantity" value="1">
                                     <button type="submit" class="btn-add-cart w-100">
-                                        <i class="fas fa-cart-plus me-1"></i>Add to Cart
+                                        <i class="fas fa-cart-plus"></i>
+                                        <span class="ms-1">Add to Cart</span>
                                     </button>
                                 </form>
-                                <a href="{{ route('shop.checkout') }}?product={{ $product->id }}&quantity=1" class="btn-buy-now">
-                                    <i class="fas fa-shopping-bag me-1"></i>Buy Now
+                                <a href="{{ route('shop.checkout') }}?product={{ $product->id }}&quantity=1" class="btn-buy-now w-100">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Buy Now</span>
+                                </a>
+                                @else
+                                <button class="btn-add-cart w-100" disabled>
+                                    <i class="fas fa-ban"></i>
+                                    <span class="ms-1">Out of Stock</span>
+                                </button>
+                                <a href="{{ route('shop.product', $product->id) }}" class="btn-buy-now w-100 disabled" aria-disabled="true" tabindex="-1">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Buy Now</span>
+                                </a>
+                                @endif
+                            </div>
+                            <div class="mt-2">
+                                <a href="{{ route('shop.product', $product->id) }}" class="btn-view-details">
+                                    <span>View details</span>
+                                    <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
@@ -1043,28 +1087,49 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="product-card">
                         <div class="product-image">
-                            @if($product->image && file_exists(public_path($product->image)))
-                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
-                            @else
-                            <div class="d-flex align-items-center justify-content-center bg-light" style="height: 250px;">
-                                <i class="fas fa-image fa-3x text-muted"></i>
-                            </div>
-                            @endif
+                            <a href="{{ route('shop.product', $product->id) }}" class="d-block">
+                                @if($product->image && file_exists(public_path($product->image)))
+                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
+                                @else
+                                <div class="d-flex align-items-center justify-content-center bg-light" style="height: 250px;">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                                @endif
+                            </a>
                             <div class="product-badge">New</div>
                         </div>
                         <div class="product-info">
-                            <h6 class="product-title">{{ Str::limit($product->name, 50) }}</h6>
-                            <div class="product-price">${{ number_format($product->price, 2) }}</div>
+                            <h6 class="product-title"><a href="{{ route('shop.product', $product->id) }}" class="text-decoration-none text-dark">{{ Str::limit($product->name, 50) }}</a></h6>
+                            <div class="product-price">@money($product->price)</div>
                             <div class="product-actions">
-                                <form action="{{ route('cart.add', $product) }}" method="POST" class="flex-fill">
+                                @if($product->stock > 0)
+                                <form action="{{ route('cart.add', $product) }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="quantity" value="1">
                                     <button type="submit" class="btn-add-cart w-100">
-                                        <i class="fas fa-cart-plus me-1"></i>Add to Cart
+                                        <i class="fas fa-cart-plus"></i>
+                                        <span class="ms-1">Add to Cart</span>
                                     </button>
                                 </form>
-                                <a href="{{ route('shop.checkout') }}?product={{ $product->id }}&quantity=1" class="btn-buy-now">
-                                    <i class="fas fa-shopping-bag me-1"></i>Buy Now
+                                <a href="{{ route('shop.checkout') }}?product={{ $product->id }}&quantity=1" class="btn-buy-now w-100">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Buy Now</span>
+                                </a>
+                                @else
+                                <button class="btn-add-cart w-100" disabled>
+                                    <i class="fas fa-ban"></i>
+                                    <span class="ms-1">Out of Stock</span>
+                                </button>
+                                <a href="{{ route('shop.product', $product->id) }}" class="btn-buy-now w-100 disabled" aria-disabled="true" tabindex="-1">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Buy Now</span>
+                                </a>
+                                @endif
+                            </div>
+                            <div class="mt-2">
+                                <a href="{{ route('shop.product', $product->id) }}" class="btn-view-details">
+                                    <span>View details</span>
+                                    <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
@@ -1089,28 +1154,49 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="product-card">
                         <div class="product-image">
-                            @if($product->image && file_exists(public_path($product->image)))
-                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
-                            @else
-                            <div class="d-flex align-items-center justify-content-center bg-light" style="height: 250px;">
-                                <i class="fas fa-image fa-3x text-muted"></i>
-                            </div>
-                            @endif
+                            <a href="{{ route('shop.product', $product->id) }}" class="d-block">
+                                @if($product->image && file_exists(public_path($product->image)))
+                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
+                                @else
+                                <div class="d-flex align-items-center justify-content-center bg-light" style="height: 250px;">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                                @endif
+                            </a>
                             <div class="product-badge">Best Seller</div>
                         </div>
                         <div class="product-info">
-                            <h6 class="product-title">{{ Str::limit($product->name, 50) }}</h6>
-                            <div class="product-price">${{ number_format($product->price, 2) }}</div>
+                            <h6 class="product-title"><a href="{{ route('shop.product', $product->id) }}" class="text-decoration-none text-dark">{{ Str::limit($product->name, 50) }}</a></h6>
+                            <div class="product-price">@money($product->price)</div>
                             <div class="product-actions">
-                                <form action="{{ route('cart.add', $product) }}" method="POST" class="flex-fill">
+                                @if($product->stock > 0)
+                                <form action="{{ route('cart.add', $product) }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="quantity" value="1">
                                     <button type="submit" class="btn-add-cart w-100">
-                                        <i class="fas fa-cart-plus me-1"></i>Add to Cart
+                                        <i class="fas fa-cart-plus"></i>
+                                        <span class="ms-1">Add to Cart</span>
                                     </button>
                                 </form>
-                                <a href="{{ route('shop.checkout') }}?product={{ $product->id }}&quantity=1" class="btn-buy-now">
-                                    <i class="fas fa-shopping-bag me-1"></i>Buy Now
+                                <a href="{{ route('shop.checkout') }}?product={{ $product->id }}&quantity=1" class="btn-buy-now w-100">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Buy Now</span>
+                                </a>
+                                @else
+                                <button class="btn-add-cart w-100" disabled>
+                                    <i class="fas fa-ban"></i>
+                                    <span class="ms-1">Out of Stock</span>
+                                </button>
+                                <a href="{{ route('shop.product', $product->id) }}" class="btn-buy-now w-100 disabled" aria-disabled="true" tabindex="-1">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Buy Now</span>
+                                </a>
+                                @endif
+                            </div>
+                            <div class="mt-2">
+                                <a href="{{ route('shop.product', $product->id) }}" class="btn-view-details">
+                                    <span>View details</span>
+                                    <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>

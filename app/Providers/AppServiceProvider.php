@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Global money formatting directive for BDT
+        Blade::directive('money', function ($expression) {
+            return "<?php echo '৳' . number_format($expression, 2); ?>";
+        });
+
         // Share cart count with all views
         view()->composer('*', function ($view) {
             if (!app()->runningInConsole()) {

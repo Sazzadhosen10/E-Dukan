@@ -71,7 +71,7 @@
                                 </div>
                             </td>
                             <td>
-                                <strong class="text-success">${{ number_format($order->total_amount, 2) }}</strong>
+                                <strong class="text-success">@money($order->total_amount)</strong>
                             </td>
                             <td>
                                 <form action="{{ route('admin.orders.updateStatus', $order) }}" method="POST" class="d-inline">
@@ -173,16 +173,16 @@
                                     @foreach($order->orderItems as $item)
                                     <tr>
                                         <td>{{ $item->product_name }}</td>
-                                        <td>${{ number_format($item->product_price, 2) }}</td>
+                                        <td>@money($item->product_price)</td>
                                         <td>{{ $item->quantity }}</td>
-                                        <td>${{ number_format($item->total_price, 2) }}</td>
+                                        <td>@money($item->total_price)</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <th colspan="3">Total Amount</th>
-                                        <th>${{ number_format($order->total_amount, 2) }}</th>
+                                        <th>@money($order->total_amount)</th>
                                     </tr>
                                 </tfoot>
                             </table>

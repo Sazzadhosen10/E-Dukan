@@ -144,7 +144,7 @@
                                     
                                     <div class="col-md-4 text-md-end">
                                         <div class="mb-2">
-                                            <strong class="text-success">${{ number_format($order->total_amount, 2) }}</strong>
+                                            <strong class="text-success">@money($order->total_amount)</strong>
                                         </div>
                                         <div class="mb-2">
                                             <small class="text-muted">{{ $order->orderItems->count() }} items</small>
@@ -208,7 +208,7 @@
                         </div>
                         <div class="col-md-6">
                             <strong>Total Amount:</strong><br>
-                            <span class="h5 text-success">${{ number_format($order->total_amount, 2) }}</span>
+                            <span class="h5 text-success">@money($order->total_amount)</span>
                         </div>
                     </div>
 
@@ -240,16 +240,16 @@
                                 @foreach($order->orderItems as $item)
                                 <tr>
                                     <td>{{ $item->product_name }}</td>
-                                    <td>${{ number_format($item->product_price, 2) }}</td>
+                                    <td>@money($item->product_price)</td>
                                     <td>{{ $item->quantity }}</td>
-                                    <td>${{ number_format($item->total_price, 2) }}</td>
+                                    <td>@money($item->total_price)</td>
                                 </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th colspan="3">Total Amount</th>
-                                    <th>${{ number_format($order->total_amount, 2) }}</th>
+                                    <th>@money($order->total_amount)</th>
                                 </tr>
                             </tfoot>
                         </table>

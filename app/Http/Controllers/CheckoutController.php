@@ -72,6 +72,7 @@ class CheckoutController extends Controller
         ]);
 
         // Check if this is a direct product purchase
+        $isDirectPurchase = false;
         if ($request->has('product') && $request->has('quantity')) {
             $productId = $request->product;
             $quantity = $request->quantity;
@@ -91,6 +92,7 @@ class CheckoutController extends Controller
             
             $cartItems = collect([$directPurchase]);
             $total = $directPurchase->total;
+            $isDirectPurchase = true;
         } else {
             // Regular cart checkout
             $cartItems = $this->getCartItems();
@@ -138,8 +140,10 @@ class CheckoutController extends Controller
                 $product->decrement('stock', $cartItem->quantity);
             }
 
-            // Clear the cart
-            $cartItems->each->delete();
+            // Clear the cart only for regular cart checkout
+            if (!$isDirectPurchase) {
+                $cartItems->each->delete();
+            }
 
             DB::commit();
 

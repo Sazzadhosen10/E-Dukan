@@ -85,7 +85,9 @@
                 <div class="col-md-6">
                     <div class="product-image">
                         @if($product->image)
-                        <img src="{{ asset($product->image) }}" class="img-fluid rounded" alt="{{ $product->name }}">
+                        <a href="{{ route('shop.product', $product->id) }}">
+                            <img src="{{ asset($product->image) }}" class="img-fluid rounded" alt="{{ $product->name }}">
+                        </a>
                         @else
                         <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 400px;">
                             <i class="fas fa-image fa-5x text-muted"></i>
@@ -103,7 +105,7 @@
                         </div>
 
                         <div class="price mb-4">
-                            <span class="h3 text-primary">${{ number_format($product->price, 2) }}</span>
+                            <span class="h3 text-primary">@money($product->price)</span>
                         </div>
 
                         <div class="stock mb-4">
@@ -124,27 +126,37 @@
                         </div>
 
                         @if($product->stock > 0)
-                        <form action="{{ route('cart.add', $product) }}" method="POST">
-                            @csrf
-                            <div class="actions">
-                                <div class="row">
-                                    <div class="col-md-4 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text">Qty</span>
-                                            <input type="number" class="form-control" name="quantity" value="1" min="1" max="{{ $product->stock }}" id="quantity">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <button type="submit" class="btn btn-primary btn-lg me-2">
-                                            <i class="fas fa-cart-plus"></i> Add to Cart
-                                        </button>
-                                        <button type="button" class="btn btn-outline-danger btn-lg">
-                                            <i class="fas fa-heart"></i>
-                                        </button>
+                        <div class="actions">
+                            <div class="row">
+                                <div class="col-md-4 mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Qty</span>
+                                        <input type="number" class="form-control" value="1" min="1" max="{{ $product->stock }}" id="quantity">
                                     </div>
                                 </div>
+                                <div class="col-md-8 d-flex align-items-stretch">
+                                    <form action="{{ route('cart.add', $product) }}" method="POST" class="me-2">
+                                        @csrf
+                                        <input type="hidden" name="quantity" value="1" id="add-to-cart-quantity">
+                                        <button type="submit" class="btn btn-primary btn-lg w-100" style="border-radius: 10px; font-weight: 700; box-shadow: 0 6px 14px rgba(44, 90, 160, 0.25)">
+                                            <i class="fas fa-cart-plus"></i>
+                                            <span class="ms-1">Add to Cart</span>
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('shop.checkout') }}" method="GET" class="me-2">
+                                        <input type="hidden" name="product" value="{{ $product->id }}">
+                                        <input type="hidden" name="quantity" value="1" id="buy-now-quantity">
+                                        <button type="submit" class="btn btn-success btn-lg w-100" style="border-radius: 10px; font-weight: 700; background: linear-gradient(135deg, #16a34a, #22c55e); border: none; box-shadow: 0 6px 14px rgba(22, 163, 74, 0.25)">
+                                            <i class="fas fa-bolt"></i>
+                                            <span class="ms-1">Buy Now</span>
+                                        </button>
+                                    </form>
+                                    <button type="button" class="btn btn-outline-danger btn-lg">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </form>
+                        </div>
                         
                         @guest
                         <div class="alert alert-info">
@@ -168,27 +180,35 @@
                 <h3 class="mb-4">Related Products</h3>
                 <div class="row">
                     @foreach($relatedProducts as $relatedProduct)
+                    @php $productUrl = request()->getSchemeAndHttpHost() . request()->getBaseUrl() . '/shop/product/' . $relatedProduct->id; @endphp
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                        <div class="card h-100">
+                        <div class="card h-100 position-relative" data-href="{{ $productUrl }}" style="cursor: pointer;">
                             @if($relatedProduct->image)
-                            <img src="{{ asset($relatedProduct->image) }}" class="card-img-top" alt="{{ $relatedProduct->name }}" style="height: 200px; object-fit: cover;">
+                            <a href="{{ $productUrl }}">
+                                <img src="{{ asset($relatedProduct->image) }}" class="card-img-top" alt="{{ $relatedProduct->name }}" style="height: 200px; object-fit: cover;">
+                            </a>
                             @else
-                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                <i class="fas fa-image fa-3x text-muted"></i>
-                            </div>
+                            <a href="{{ $productUrl }}" class="text-decoration-none">
+                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                            </a>
                             @endif
                             <div class="card-body d-flex flex-column">
-                                <h6 class="card-title">{{ $relatedProduct->name }}</h6>
+                                <h6 class="card-title">
+                                    <a href="{{ $productUrl }}" class="text-decoration-none text-dark">{{ $relatedProduct->name }}</a>
+                                </h6>
                                 <p class="card-text text-muted small">{{ Str::limit($relatedProduct->description, 60) }}</p>
                                 <div class="mt-auto">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <span class="h6 text-primary">${{ number_format($relatedProduct->price, 2) }}</span>
+                                        <span class="h6 text-primary">@money($relatedProduct->price)</span>
                                         <small class="text-muted">Stock: {{ $relatedProduct->stock }}</small>
                                     </div>
                                     <div class="d-grid mt-2">
-                                        <a href="{{ route('shop.product', $relatedProduct->id) }}" class="btn btn-outline-primary btn-sm">View Details</a>
+                                        <a href="{{ $productUrl }}" class="btn btn-outline-primary btn-sm" onclick="window.location.href='{{ $productUrl }}'; return false;">View Details</a>
                                     </div>
                                 </div>
+                                <a href="{{ $productUrl }}" class="stretched-link" aria-label="View {{ $relatedProduct->name }}"></a>
                             </div>
                         </div>
                     </div>
@@ -215,6 +235,35 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function() {
+            const qtyInput = document.getElementById('quantity');
+            const addToCartQty = document.getElementById('add-to-cart-quantity');
+            const buyNowQty = document.getElementById('buy-now-quantity');
+            if (qtyInput && addToCartQty && buyNowQty) {
+                const sync = () => {
+                    addToCartQty.value = qtyInput.value || 1;
+                    buyNowQty.value = qtyInput.value || 1;
+                };
+                qtyInput.addEventListener('input', sync);
+                qtyInput.addEventListener('change', sync);
+                sync();
+            }
+            // Make entire related product card clickable as a fallback if overlays block anchors
+            document.querySelectorAll('.related-products .card[data-href]').forEach(function(card) {
+                card.addEventListener('click', function(e) {
+                    const tag = e.target.tagName.toLowerCase();
+                    if (tag === 'a' || tag === 'button' || e.target.closest('a') || e.target.closest('button')) {
+                        return;
+                    }
+                    const href = card.getAttribute('data-href');
+                    if (href) {
+                        window.location.href = href;
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 
 </html>

@@ -186,7 +186,7 @@
                     <div class="stat-card info">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h3 class="mb-0">${{ number_format($totalSpent, 2) }}</h3>
+                                <h3 class="mb-0">@money($totalSpent)</h3>
                                 <p class="mb-0 opacity-75">Total Spent</p>
                             </div>
                             <i class="fas fa-dollar-sign fa-2x opacity-75"></i>
@@ -218,7 +218,7 @@
                                         </div>
                                     </div>
                                     <div class="text-end">
-                                        <h6 class="text-success mb-0">${{ number_format($order->total_amount, 2) }}</h6>
+                                        <h6 class="text-success mb-0">@money($order->total_amount)</h6>
                                         <a href="{{ route('user.orders') }}" class="btn btn-sm btn-outline-primary mt-1">View</a>
                                     </div>
                                 </div>
@@ -309,7 +309,7 @@
                                     <p class="card-text text-muted small">{{ Str::limit($product->description, 60) }}</p>
                                     <div class="mt-auto">
                                         <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <span class="h6 text-primary">${{ number_format($product->price, 2) }}</span>
+                                            <span class="h6 text-primary">@money($product->price)</span>
                                             <small class="text-muted">Stock: {{ $product->stock }}</small>
                                         </div>
                                         <div class="d-grid">
