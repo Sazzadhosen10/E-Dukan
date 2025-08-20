@@ -7,8 +7,6 @@ php artisan serve
 
 
 
-sazzad
-
 git clone https://github.com/username/project.git
 cd project
 composer install
