@@ -43,6 +43,7 @@ class AdminController extends Controller
     public function categories()
     {
         $categories = Category::with('parent', 'subcategories')
+            ->withCount('products')
             ->orderBy('sort_order')
             ->orderBy('name')
             ->paginate(15);

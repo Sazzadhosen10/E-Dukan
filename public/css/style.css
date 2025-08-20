@@ -159,7 +159,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #4F46E5;
+    color: #0284c7;
 }
 
 .cart-icon {
@@ -208,7 +208,7 @@ main {
 
 .hero-btn {
     display: inline-block;
-    background-color: #4F46E5;
+    background-color: #0284c7;
     color: white;
     padding: 0.8rem 2rem;
     border-radius: 4px;
@@ -217,7 +217,7 @@ main {
 }
 
 .hero-btn:hover {
-    background-color: #4338CA;
+    background-color: #0369a1;
 }
 
 /* Product Grid */

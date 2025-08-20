@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         }
         .glass-effect {
             background: rgba(255, 255, 255, 0.1);
@@ -16,7 +16,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .input-focus:focus {
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
         }
         .floating-label {
             position: relative;
@@ -36,23 +36,23 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+<body class="min-h-screen flex items-center justify-center p-4" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
 
     <div class="w-full max-w-md">
         <!-- Logo Section -->
         <div class="text-center mb-8">
             <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg mb-4">
-                <i class="fas fa-shopping-bag text-3xl text-indigo-600"></i>
+                <i class="fas fa-shopping-bag text-3xl text-emerald-600"></i>
             </div>
             <h1 class="text-2xl font-bold text-white mb-2">E-Dukan</h1>
-            <p class="text-indigo-100">Your Premier Shopping Destination</p>
+            <p class="text-slate-200">Your Premier Shopping Destination</p>
         </div>
 
         <!-- Registration Form -->
         <div class="glass-effect rounded-3xl shadow-2xl p-8">
             <div class="text-center mb-8">
                 <h2 class="text-3xl font-bold text-white mb-2">Create Account ✨</h2>
-                <p class="text-indigo-100">Join our community today</p>
+                <p class="text-slate-200">Join our community today</p>
             </div>
 
             <form method="POST" action="{{ route('register') }}" class="space-y-6">
@@ -113,7 +113,7 @@
                 <!-- Terms and Conditions -->
                 <div class="flex items-start">
                     <input id="terms" name="terms" type="checkbox" required
-                           class="mt-1 mr-3 w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                           class="mt-1 mr-3 w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500">
                     <label for="terms" class="text-sm text-white text-opacity-80">
                         I agree to the 
                         <a href="#" class="text-indigo-200 hover:text-white underline">Terms of Service</a> 
@@ -124,7 +124,7 @@
 
                 <!-- Submit Button -->
                 <button type="submit"
-                        class="w-full py-3 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50">
+                        class="w-full py-3 px-6 bg-gradient-to-r from-emerald-600 to-sky-600 text-white font-semibold rounded-xl shadow-lg hover:from-emerald-700 hover:to-sky-700 transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-emerald-500 focus:ring-opacity-50">
                     <i class="fas fa-user-plus mr-2"></i>Create Account
                 </button>
             </form>
@@ -140,7 +140,7 @@
             <div class="text-center">
                 <p class="text-white text-opacity-80">
                     Already have an account?
-                    <a href="{{ route('login') }}" class="text-indigo-200 hover:text-white font-semibold transition-colors">
+                    <a href="{{ route('login') }}" class="text-sky-100 hover:text-white font-semibold transition-colors">
                         Sign in here
                     </a>
                 </p>

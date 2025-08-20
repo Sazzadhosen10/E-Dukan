@@ -45,8 +45,8 @@
 
                 <div class="search-container flex-grow-1 mx-4">
                     <form action="{{ route('shop.search') }}" method="GET" class="d-flex">
-                        <input type="text" name="q" class="form-control" placeholder="Search in E-Dukan" value="{{ request('q') }}">
-                        <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
+                        <input type="text" name="q" class="form-control" placeholder="Search in E-Dukan" value="{{ request('q') }}" style="border-right:none;border-radius:9999px 0 0 9999px;padding:10px 14px;height:42px;">
+                        <button class="btn btn-primary" type="submit" style="border-left:none;border-radius:0 9999px 9999px 0;padding:10px 14px;height:42px;"><i class="fas fa-search"></i></button>
                     </form>
                 </div>
 
@@ -138,7 +138,7 @@
                                     <form action="{{ route('cart.add', $product) }}" method="POST" class="me-2">
                                         @csrf
                                         <input type="hidden" name="quantity" value="1" id="add-to-cart-quantity">
-                                        <button type="submit" class="btn btn-primary btn-lg w-100" style="border-radius: 10px; font-weight: 700; box-shadow: 0 6px 14px rgba(44, 90, 160, 0.25)">
+                                        <button type="submit" class="btn btn-primary w-100" style="border-radius:8px;font-weight:600;font-size:0.95rem;padding:8px 12px;box-shadow:0 4px 10px rgba(5,150,105,0.18);background:#059669;border:none;">
                                             <i class="fas fa-cart-plus"></i>
                                             <span class="ms-1">Add to Cart</span>
                                         </button>
@@ -146,12 +146,12 @@
                                     <form action="{{ route('shop.checkout') }}" method="GET" class="me-2">
                                         <input type="hidden" name="product" value="{{ $product->id }}">
                                         <input type="hidden" name="quantity" value="1" id="buy-now-quantity">
-                                        <button type="submit" class="btn btn-success btn-lg w-100" style="border-radius: 10px; font-weight: 700; background: linear-gradient(135deg, #16a34a, #22c55e); border: none; box-shadow: 0 6px 14px rgba(22, 163, 74, 0.25)">
+                                        <button type="submit" class="btn w-100" style="border-radius:8px;font-weight:600;font-size:0.95rem;padding:8px 12px;box-shadow:0 4px 10px rgba(2,132,199,0.2);background:linear-gradient(135deg,#0284c7,#38bdf8);border:none;color:#fff;">
                                             <i class="fas fa-bolt"></i>
                                             <span class="ms-1">Buy Now</span>
                                         </button>
                                     </form>
-                                    <button type="button" class="btn btn-outline-danger btn-lg">
+                                    <button type="button" class="btn btn-outline-danger" style="border-radius:8px;padding:8px 12px;">
                                         <i class="fas fa-heart"></i>
                                     </button>
                                 </div>

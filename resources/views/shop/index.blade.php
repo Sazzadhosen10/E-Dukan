@@ -22,12 +22,12 @@
 
     <style>
         :root {
-            --primary-color: #2c5aa0;
-            --secondary-color: #f8f9fa;
-            --accent-color: #ff6b35;
-            --text-dark: #2d3748;
-            --text-light: #718096;
-            --border-color: #e2e8f0;
+            --primary-color: #059669; /* emerald-600 */
+            --secondary-color: #f8fafc; /* slate-50 */
+            --accent-color: #0284c7; /* sky-600 */
+            --text-dark: #0f172a; /* slate-900 */
+            --text-light: #475569; /* slate-600 */
+            --border-color: #e2e8f0; /* slate-200 */
         }
 
         /* Reset margins and padding for full-width slider */
@@ -63,14 +63,18 @@
 
         .search-container .form-control {
             border-right: none;
-            border-radius: 25px 0 0 25px;
-            padding: 12px 20px;
+            border-radius: 9999px 0 0 9999px;
+            padding: 10px 14px;
+            height: 42px;
         }
 
         .search-container .btn {
             border-left: none;
-            border-radius: 0 25px 25px 0;
-            padding: 12px 20px;
+            border-radius: 0 9999px 9999px 0;
+            padding: 10px 14px;
+            height: 42px;
+            background: var(--primary-color);
+            border-color: var(--primary-color);
         }
 
         .nav-icon {
@@ -225,8 +229,8 @@
         .swiper-button-prev {
             color: white;
             background: rgba(0, 0, 0, 0.3);
-            width: 50px;
-            height: 50px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             transition: all 0.3s ease;
             z-index: 1000;
@@ -244,7 +248,7 @@
 
         .swiper-button-next::after,
         .swiper-button-prev::after {
-            font-size: 20px;
+            font-size: 14px;
             font-weight: bold;
             color: white;
         }
@@ -446,29 +450,31 @@
             background: var(--primary-color);
             color: #fff;
             border: none;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-weight: 700;
-            box-shadow: 0 6px 14px rgba(44, 90, 160, 0.25);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.18);
             transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
         }
 
         .btn-add-cart:hover {
-            background: #224a8e;
+            background: #047857;
             color: #fff;
             transform: translateY(-1px);
-            box-shadow: 0 10px 20px rgba(44, 90, 160, 0.35);
+            box-shadow: 0 8px 16px rgba(5, 150, 105, 0.25);
         }
 
         .btn-buy-now {
             grid-column: 2 / span 1;
-            background: linear-gradient(135deg, #ff6b35, #ff8a35);
+            background: linear-gradient(135deg, var(--accent-color), #38bdf8);
             color: #fff;
             border: none;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-weight: 700;
-            box-shadow: 0 6px 14px rgba(255, 107, 53, 0.25);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.2);
             transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
             text-decoration: none;
             display: inline-flex;
@@ -478,10 +484,10 @@
         }
 
         .btn-buy-now:hover {
-            background: linear-gradient(135deg, #e55a2b, #ff7a2b);
+            background: linear-gradient(135deg, #0369a1, var(--accent-color));
             color: #fff;
             transform: translateY(-1px);
-            box-shadow: 0 10px 20px rgba(255, 107, 53, 0.35);
+            box-shadow: 0 8px 16px rgba(2, 132, 199, 0.3);
         }
 
         .btn-view-details {
@@ -589,13 +595,13 @@
 
             .swiper-button-next,
             .swiper-button-prev {
-                width: 40px;
-                height: 40px;
+                width: 32px;
+                height: 32px;
             }
 
             .swiper-button-next::after,
             .swiper-button-prev::after {
-                font-size: 16px;
+                font-size: 12px;
             }
         }
 
@@ -1182,385 +1188,63 @@
     
     <!-- Fallback Swiper JS if CDN fails -->
     <script>
-        // Check if Swiper loaded properly
-        if (typeof Swiper === 'undefined') {
-            console.log('Primary Swiper CDN failed, trying fallback...');
-            const script = document.createElement('script');
-            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js';
-            script.onload = function() {
-                console.log('Fallback Swiper loaded successfully');
-                initializeSlider();
-            };
-            script.onerror = function() {
-                console.error('All Swiper CDNs failed');
-            };
-            document.head.appendChild(script);
-        } else {
-            console.log('Primary Swiper CDN loaded successfully');
-            initializeSlider();
-        }
-        
-        function initializeSlider() {
-            // Initialize Swiper for hero slider
-            @if($sliders->isNotEmpty())
-            document.addEventListener('DOMContentLoaded', function() {
-                console.log('DOM loaded, initializing slider...');
-                console.log('Sliders count:', {{ $sliders->count() }});
-                
-                // Store swiper instance globally to prevent conflicts
-                window.heroSwiperInstance = null;
-                
-                try {
-                    // Wait a bit for all resources to load
-                    setTimeout(function() {
-                        const swiperContainer = document.querySelector('.hero-swiper');
-                        if (!swiperContainer) {
-                            console.error('Swiper container not found');
-                            return;
-                        }
-                        
-                        console.log('Swiper container found:', swiperContainer);
-                        
-                        // Check if we have multiple slides
-                        const slides = document.querySelectorAll('.swiper-slide');
-                        console.log('Found slides:', slides.length);
-                        
-                        if (slides.length <= 1) {
-                            console.log('Only one slide found, disabling loop and autoplay');
-                        }
-                        
-                        // Destroy existing swiper instance if it exists
-                        if (window.heroSwiperInstance && window.heroSwiperInstance.destroy) {
-                            console.log('Destroying existing swiper instance');
-                            window.heroSwiperInstance.destroy(true, true);
-                        }
-                        
-                        const heroSwiper = new Swiper('.hero-swiper', {
-                            loop: slides.length > 1,
-                            autoplay: slides.length > 1 ? {
-                                delay: 5000,
-                                disableOnInteraction: false,
-                                pauseOnMouseEnter: true,
-                                stopOnLastSlide: false,
-                                waitForTransition: false
-                            } : false,
-                            effect: 'slide', // Changed from 'fade' to 'slide' for better compatibility
-                            speed: 800,
-                            allowTouchMove: true,
-                            grabCursor: true,
-                            watchSlidesProgress: true,
-                            watchSlidesVisibility: true,
-                            observer: true,
-                            observeParents: true,
-                            slidesPerView: 1,
-                            spaceBetween: 0,
-                            pagination: slides.length > 1 ? {
-                                el: '.swiper-pagination',
-                                clickable: true,
-                                dynamicBullets: true
-                            } : false,
-                            navigation: slides.length > 1 ? {
-                                nextEl: '.swiper-button-next',
-                                prevEl: '.swiper-button-prev',
-                            } : false,
-                            lazy: false, // Disabled lazy loading to prevent issues
-                            // Ensure proper responsive behavior
-                            breakpoints: {
-                                320: {
-                                    slidesPerView: 1,
-                                    spaceBetween: 0
-                                },
-                                768: {
-                                    slidesPerView: 1,
-                                    spaceBetween: 0
-                                },
-                                1024: {
-                                    slidesPerView: 1,
-                                    spaceBetween: 0
-                                }
-                            },
-                            // Add event listeners for debugging
-                            on: {
-                                init: function() {
-                                    console.log('Swiper initialized successfully');
-                                    console.log('Total slides:', this.slides.length);
-                                    console.log('Is loop enabled:', this.params.loop);
-                                    console.log('Is autoplay enabled:', this.autoplay && this.autoplay.running);
-                                    console.log('Navigation elements:', {
-                                        next: this.navigation.nextEl,
-                                        prev: this.navigation.prevEl
-                                    });
-                                    console.log('Pagination element:', this.pagination.el);
-                                    
-                                    // Store instance globally
-                                    window.heroSwiperInstance = this;
-                                    
-                                    // Ensure autoplay is running
-                                    if (this.autoplay && slides.length > 1) {
-                                        setTimeout(() => {
-                                            if (this.autoplay && !this.autoplay.running) {
-                                                console.log('Starting autoplay manually');
-                                                this.autoplay.start();
-                                            }
-                                        }, 1000);
-                                    }
-                                },
-                                slideChange: function() {
-                                    console.log('Slide changed to:', this.realIndex);
-                                    console.log('Active slide:', this.activeIndex);
-                                    console.log('Previous slide:', this.previousIndex);
-                                },
-                                slideChangeTransitionStart: function() {
-                                    console.log('Slide change transition started');
-                                },
-                                slideChangeTransitionEnd: function() {
-                                    console.log('Slide change transition ended');
-                                },
-                                touchStart: function() {
-                                    console.log('Touch started');
-                                },
-                                touchEnd: function() {
-                                    console.log('Touch ended');
-                                },
-                                beforeInit: function() {
-                                    console.log('Before Swiper init');
-                                },
-                                afterInit: function() {
-                                    console.log('After Swiper init');
-                                    // Test navigation
-                                    if (this.navigation.nextEl && this.navigation.prevEl) {
-                                        console.log('Navigation elements found');
-                                        this.navigation.nextEl.addEventListener('click', function() {
-                                            console.log('Next button clicked');
-                                        });
-                                        this.navigation.prevEl.addEventListener('click', function() {
-                                            console.log('Prev button clicked');
-                                        });
-                                    }
-                                },
-                                beforeDestroy: function() {
-                                    console.log('Swiper being destroyed');
-                                },
-                                afterDestroy: function() {
-                                    console.log('Swiper destroyed');
-                                }
-                            }
-                        });
+        function initHeroSlider() {
+            const slides = document.querySelectorAll('.hero-swiper .swiper-slide');
+            if (!slides || slides.length === 0) return;
 
-                        // Test if swiper is working
-                        console.log('Swiper instance:', heroSwiper);
-                        console.log('Swiper params:', heroSwiper.params);
-                        
-                        // Enable touch events explicitly
-                        heroSwiper.allowTouchMove = true;
-                        heroSwiper.grabCursor = true;
-                        
-                        // Store instance globally
-                        window.heroSwiperInstance = heroSwiper;
-                        
-                        // Add periodic health check for swiper
-                        setInterval(function() {
-                            if (window.heroSwiperInstance) {
-                                // Check if swiper is still responsive
-                                try {
-                                    const currentIndex = window.heroSwiperInstance.activeIndex;
-                                    const isAutoplayRunning = window.heroSwiperInstance.autoplay ? window.heroSwiperInstance.autoplay.running : false;
-                                    
-                                    // If autoplay should be running but isn't, restart it
-                                    if (slides.length > 1 && !isAutoplayRunning && window.heroSwiperInstance.autoplay) {
-                                        console.log('Autoplay stopped, restarting...');
-                                        window.heroSwiperInstance.autoplay.start();
-                                    }
-                                    
-                                    // Log status every 30 seconds
-                                    if (Date.now() % 30000 < 1000) {
-                                        console.log('Swiper health check - Active index:', currentIndex, 'Autoplay running:', isAutoplayRunning);
-                                    }
-                                } catch (error) {
-                                    console.error('Swiper health check failed:', error);
-                                    // Try to reinitialize if there's a critical error
-                                    if (error.message.includes('destroyed') || error.message.includes('not initialized')) {
-                                        console.log('Attempting to reinitialize swiper...');
-                                        setTimeout(initializeSlider, 1000);
-                                    }
-                                }
-                            }
-                        }, 5000); // Check every 5 seconds
-                        
-                        // Test manual slide change after a delay
-                        setTimeout(function() {
-                            if (heroSwiper.slides.length > 1) {
-                                console.log('Testing manual slide change...');
-                                try {
-                                    // Test going to next slide
-                                    heroSwiper.slideNext();
-                                    console.log('Manual slide change successful');
-                                    
-                                    // Test going back to first slide
-                                    setTimeout(() => {
-                                        heroSwiper.slideTo(0);
-                                        console.log('Manual slide to first slide successful');
-                                    }, 1000);
-                                    
-                                } catch (error) {
-                                    console.error('Manual slide change failed:', error);
-                                }
-                            }
-                        }, 3000);
-                        
-                        // Add manual navigation testing
-                        const nextBtn = document.querySelector('.swiper-button-next');
-                        const prevBtn = document.querySelector('.swiper-button-prev');
-                        
-                        if (nextBtn) {
-                            nextBtn.addEventListener('click', function(e) {
-                                console.log('Next button clicked manually');
-                                e.preventDefault();
-                                if (window.heroSwiperInstance && window.heroSwiperInstance.slideNext) {
-                                    try {
-                                        window.heroSwiperInstance.slideNext();
-                                        console.log('Next slide navigation successful');
-                                    } catch (error) {
-                                        console.error('Next slide navigation failed:', error);
-                                    }
-                                }
-                            });
-                        }
-                        
-                        if (prevBtn) {
-                            prevBtn.addEventListener('click', function(e) {
-                                console.log('Prev button clicked manually');
-                                e.preventDefault();
-                                if (window.heroSwiperInstance && window.heroSwiperInstance.slidePrev) {
-                                    try {
-                                        window.heroSwiperInstance.slidePrev();
-                                        console.log('Prev slide navigation successful');
-                                    } catch (error) {
-                                        console.error('Prev slide navigation failed:', error);
-                                    }
-                                }
-                            });
-                        }
-                        
-                    }, 200);
-                    
-                } catch (error) {
-                    console.error('Error initializing hero slider:', error);
-                    console.error('Error stack:', error.stack);
-                }
+            const hasMultiple = slides.length > 1;
+            new Swiper('.hero-swiper', {
+                loop: hasMultiple,
+                autoplay: hasMultiple ? { delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true } : false,
+                effect: 'slide',
+                speed: 700,
+                slidesPerView: 1,
+                spaceBetween: 0,
+                pagination: hasMultiple ? { el: '.swiper-pagination', clickable: true, dynamicBullets: true } : false,
+                navigation: hasMultiple ? { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } : false,
+                allowTouchMove: true,
+                grabCursor: true,
             });
-            @else
-            console.log('No sliders found in database');
-            @endif
         }
 
-        // Add touch event debugging
-        document.addEventListener('touchstart', function(e) {
-            console.log('Touch event detected:', e.type);
-        }, { passive: false });
-        
-        document.addEventListener('mousedown', function(e) {
-            console.log('Mouse event detected:', e.type);
-        });
-
-        // Prevent page interactions from interfering with swiper
-        document.addEventListener('visibilitychange', function() {
-            if (window.heroSwiperInstance && window.heroSwiperInstance.autoplay) {
-                if (document.hidden) {
-                    console.log('Page hidden, pausing autoplay');
-                    window.heroSwiperInstance.autoplay.stop();
+        (function() {
+            const ensureSwiper = () => {
+                if (typeof Swiper === 'undefined') {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js';
+                    script.onload = initHeroSlider;
+                    document.head.appendChild(script);
                 } else {
-                    console.log('Page visible, resuming autoplay');
-                    window.heroSwiperInstance.autoplay.start();
+                    initHeroSlider();
                 }
-            }
-        });
+            };
 
-        // Prevent window focus/blur from affecting swiper
-        window.addEventListener('focus', function() {
-            if (window.heroSwiperInstance && window.heroSwiperInstance.autoplay) {
-                console.log('Window focused, resuming autoplay');
-                window.heroSwiperInstance.autoplay.start();
-            }
-        });
+            document.addEventListener('DOMContentLoaded', ensureSwiper);
 
-        window.addEventListener('blur', function() {
-            if (window.heroSwiperInstance && window.heroSwiperInstance.autoplay) {
-                console.log('Window blurred, pausing autoplay');
-                window.heroSwiperInstance.autoplay.stop();
-            }
-        });
-
-        // Additional debugging for slider functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if slider elements exist
-            const sliderSection = document.querySelector('.hero-slider');
-            const swiperContainer = document.querySelector('.hero-swiper');
-            const swiperWrapper = document.querySelector('.swiper-wrapper');
-            const slides = document.querySelectorAll('.swiper-slide');
-            
-            console.log('Slider debugging:');
-            console.log('- Slider section:', sliderSection);
-            console.log('- Swiper container:', swiperContainer);
-            console.log('- Swiper wrapper:', swiperWrapper);
-            console.log('- Slides count:', slides.length);
-            
-            if (slides.length > 0) {
-                slides.forEach((slide, index) => {
-                    console.log(`- Slide ${index}:`, slide);
-                    console.log(`  - Width:`, slide.offsetWidth);
-                    console.log(`  - Height:`, slide.offsetHeight);
-                    console.log(`  - Image:`, slide.querySelector('img'));
-                });
-            }
-            
-            // Test touch events on slider
-            if (sliderSection) {
-                sliderSection.addEventListener('touchstart', function(e) {
-                    console.log('Slider touch start:', e);
-                }, { passive: false });
-                
-                sliderSection.addEventListener('touchmove', function(e) {
-                    console.log('Slider touch move:', e);
-                }, { passive: false });
-                
-                sliderSection.addEventListener('touchend', function(e) {
-                    console.log('Slider touch end:', e);
-                }, { passive: false });
-            }
-        });
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+            // Smooth scrolling for anchor links
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function(e) {
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            e.preventDefault();
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
                     });
-                }
+                });
             });
-        });
 
-
-
-        // Add to cart success feedback
-        document.querySelectorAll('.btn-add-cart').forEach(button => {
-            button.addEventListener('click', function() {
-                const originalText = this.innerHTML;
-                this.innerHTML = '<i class="fas fa-check me-1"></i>Added!';
-                this.classList.add('btn-success');
-                this.classList.remove('btn-primary');
-
-                setTimeout(() => {
-                    this.innerHTML = originalText;
-                    this.classList.remove('btn-success');
-                    this.classList.add('btn-primary');
-                }, 2000);
+            // Add to cart feedback
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.btn-add-cart').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check me-1"></i>Added!';
+                        setTimeout(() => { this.innerHTML = originalText; }, 1800);
+                    });
+                });
             });
-        });
+        })();
     </script>
 </body>
 

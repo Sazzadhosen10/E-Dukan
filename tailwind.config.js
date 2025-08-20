@@ -18,7 +18,7 @@ export default {
             colors: {
                 brand: {
                     primary: colors.emerald,
-                    accent: colors.amber,
+                    accent: colors.sky,
                     info: colors.indigo,
                     danger: colors.rose,
                     neutral: colors.slate,
