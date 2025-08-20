@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'order_number',
         'user_id',
@@ -71,5 +74,53 @@ class Order extends Model
             'cancelled' => 'danger',
             default => 'secondary'
         };
+    }
+
+    /**
+     * Get payment status display text
+     */
+    public function getPaymentStatusDisplayAttribute(): string
+    {
+        if ($this->status === 'cancelled') {
+            return 'Order Cancelled';
+        }
+        
+        if ($this->status === 'delivered') {
+            return 'Payment Complete';
+        }
+        
+        return 'Pending';
+    }
+
+    /**
+     * Get payment status badge color
+     */
+    public function getPaymentStatusBadgeAttribute(): string
+    {
+        if ($this->status === 'cancelled') {
+            return 'danger';
+        }
+        
+        if ($this->status === 'delivered') {
+            return 'success';
+        }
+        
+        return 'warning';
+    }
+
+    /**
+     * Update payment status based on order status
+     */
+    public function updatePaymentStatusFromOrderStatus(): void
+    {
+        $paymentStatus = 'pending';
+        
+        if ($this->status === 'delivered') {
+            $paymentStatus = 'paid';
+        } elseif ($this->status === 'cancelled') {
+            $paymentStatus = 'cancelled';
+        }
+        
+        $this->update(['payment_status' => $paymentStatus]);
     }
 }

@@ -285,13 +285,47 @@ class AdminController extends Controller
     /**
      * Display orders management
      */
-    public function orders()
+    public function orders(Request $request)
     {
-        $orders = Order::with(['user', 'orderItems'])
-            ->latest()
-            ->paginate(15);
+        $query = Order::with(['user', 'orderItems']);
 
-        return view('admin.orders', compact('orders'));
+        // Apply filters
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('payment_status')) {
+            $query->where('payment_status', $request->payment_status);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('order_number', 'like', "%{$search}%")
+                  ->orWhereHas('user', function($userQuery) use ($search) {
+                      $userQuery->where('name', 'like', "%{$search}%")
+                               ->orWhere('email', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $orders = $query->latest()->paginate(15);
+
+        // Get counts for summary cards
+        $totalOrders = Order::count();
+        $pendingOrders = Order::where('status', 'pending')->count();
+        $deliveredOrders = Order::where('status', 'delivered')->count();
+        $pendingPayments = Order::where('payment_status', 'pending')->count();
+        $cancelledOrders = Order::where('status', 'cancelled')->count();
+
+        return view('admin.orders', compact(
+            'orders', 
+            'totalOrders', 
+            'pendingOrders', 
+            'deliveredOrders', 
+            'pendingPayments', 
+            'cancelledOrders'
+        ));
     }
 
     /**
@@ -303,10 +337,15 @@ class AdminController extends Controller
             'status' => 'required|in:pending,processing,shipped,delivered,cancelled'
         ]);
 
+        $status = $request->status;
+        
         $order->update([
-            'status' => $request->status,
-            'delivered_at' => $request->status === 'delivered' ? now() : null
+            'status' => $status,
+            'delivered_at' => $status === 'delivered' ? now() : null
         ]);
+
+        // Update payment status based on order status
+        $order->updatePaymentStatusFromOrderStatus();
 
         return redirect()->back()->with('success', 'Order status updated successfully!');
     }
