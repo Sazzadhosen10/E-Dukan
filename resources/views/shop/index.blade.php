@@ -43,12 +43,6 @@
         }
 
         /* Header Styles */
-        .header-top {
-            background: linear-gradient(135deg, var(--primary-color) 0%, #1e3a8a 100%);
-            color: white;
-            padding: 8px 0;
-            font-size: 14px;
-        }
 
         .main-header {
             background: white;
@@ -507,95 +501,9 @@
             text-decoration: underline;
         }
 
-        /* Testimonials */
-        .testimonials {
-            background: var(--secondary-color);
-            padding: 80px 0;
-        }
 
-        .testimonial-card {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            height: 100%;
-        }
 
-        .testimonial-text {
-            font-style: italic;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            color: var(--text-dark);
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .author-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        .author-info h6 {
-            margin: 0;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .author-info small {
-            color: var(--text-light);
-        }
-
-        /* Newsletter */
-        .newsletter {
-            background: linear-gradient(135deg, var(--primary-color) 0%, #1e3a8a 100%);
-            color: white;
-            padding: 80px 0;
-        }
-
-        .newsletter-form {
-            max-width: 500px;
-            margin: 0 auto;
-            display: flex;
-            gap: 15px;
-        }
-
-        .newsletter-form input {
-            flex: 1;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-        }
-
-        .newsletter-form button {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            white-space: nowrap;
-            transition: all 0.3s ease;
-        }
-
-        .newsletter-form button:hover {
-            background: #e55a2b;
-        }
+        
 
         /* Footer */
         .footer {
@@ -785,36 +693,7 @@
 </head>
 
 <body>
-    <!-- Header Top -->
-    <div class="header-top">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <span><i class="fas fa-phone me-2"></i>+1-800-123-4567</span>
-                    <span class="ms-3"><i class="fas fa-envelope me-2"></i>support@edukan.com</span>
-                </div>
-                <div class="col-md-6 text-end">
-                    @auth
-                    <span>Welcome back, {{ Auth::user()->name }}!</span>
-                    <a href="{{ route('logout') }}" class="text-white ms-2 text-decoration-none"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt me-1"></i>Logout
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                    @else
-                    <a href="{{ route('login') }}" class="text-white text-decoration-none">
-                        <i class="fas fa-sign-in-alt me-1"></i>Login
-                    </a>
-                    <a href="{{ route('register') }}" class="text-white ms-3 text-decoration-none">
-                        <i class="fas fa-user-plus me-1"></i>Register
-                    </a>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Main Header -->
     <header class="main-header">
@@ -878,13 +757,31 @@
                         </a>
 
                         @auth
-                        <a href="{{ route('user.dashboard') }}" class="nav-icon">
-                            <i class="fas fa-user"></i>
-                        </a>
+                        <div class="dropdown">
+                            <a href="#" class="nav-icon dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fas fa-user"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ route('user.dashboard') }}">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
                         @else
-                        <a href="{{ route('login') }}" class="nav-icon">
-                            <i class="fas fa-sign-in-alt"></i>
-                        </a>
+                        <div class="d-flex align-items-center gap-2 ms-3">
+                            <a href="{{ route('login') }}" class="btn btn-outline-primary btn-sm px-3 py-2">
+                                <i class="fas fa-sign-in-alt me-1"></i>Login
+                            </a>
+                            <a href="{{ route('register') }}" class="btn btn-primary btn-sm px-3 py-2">
+                                <i class="fas fa-user-plus me-1"></i>Register
+                            </a>
+                        </div>
                         @endauth
                     </div>
                 </div>
@@ -1208,72 +1105,9 @@
     </section>
     @endif
 
-    <!-- Customer Testimonials -->
-    <section class="testimonials">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">What Our Customers Say</h2>
-                <p class="section-subtitle">Real feedback from real customers</p>
-            </div>
-            <div class="row g-4">
-                <!-- Sample testimonials - you can make these admin-controlled later -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card">
-                        <div class="testimonial-text">
-                            "Amazing quality products and super fast delivery! I've been shopping here for months and never disappointed."
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">JS</div>
-                            <div class="author-info">
-                                <h6>John Smith</h6>
-                                <small>Verified Customer</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card">
-                        <div class="testimonial-text">
-                            "Excellent customer service and easy returns. The team really cares about customer satisfaction."
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">MJ</div>
-                            <div class="author-info">
-                                <h6>Maria Johnson</h6>
-                                <small>Verified Customer</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card">
-                        <div class="testimonial-text">
-                            "Great variety of products at competitive prices. My go-to online store for all my needs!"
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">RB</div>
-                            <div class="author-info">
-                                <h6>Robert Brown</h6>
-                                <small>Verified Customer</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Newsletter Signup -->
-    <section class="newsletter">
-        <div class="container text-center">
-            <h2 class="mb-3">Stay Updated</h2>
-            <p class="mb-4 fs-5">Get exclusive deals and latest updates straight to your inbox</p>
-            <div class="newsletter-form">
-                <input type="email" placeholder="Enter your email address" required>
-                <button type="submit">Subscribe Now</button>
-            </div>
-        </div>
-    </section>
+
+
 
     <!-- Footer -->
     <footer class="footer">
@@ -1315,8 +1149,6 @@
                     <div class="footer-section">
                         <h5>Contact Info</h5>
                         <div class="footer-link"><i class="fas fa-map-marker-alt me-2"></i>123 Commerce St, City, State 12345</div>
-                        <div class="footer-link"><i class="fas fa-phone me-2"></i>+1-800-123-4567</div>
-                        <div class="footer-link"><i class="fas fa-envelope me-2"></i>support@edukan.com</div>
 
                         <h6 class="mt-4 mb-3">We Accept</h6>
                         <div class="payment-icons">
@@ -1712,15 +1544,7 @@
             });
         });
 
-        // Newsletter form submission
-        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
-            if (email) {
-                alert('Thank you for subscribing! We\'ll keep you updated with our latest offers.');
-                this.querySelector('input[type="email"]').value = '';
-            }
-        });
+
 
         // Add to cart success feedback
         document.querySelectorAll('.btn-add-cart').forEach(button => {

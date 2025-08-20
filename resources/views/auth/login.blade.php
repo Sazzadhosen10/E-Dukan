@@ -3,73 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - E_Dukan</title>
+    <title>Login - E-Dukan</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+    </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex items-center justify-center">
+<body class="min-h-screen flex items-center justify-center p-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
 
-    <div class="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
-        <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-6">Welcome Back 👋</h2>
-
-        @if (session('status'))
-            <div class="mb-4 text-sm font-medium text-green-600">
-                {{ session('status') }}
+    <div class="w-full max-w-md">
+        <!-- Logo Section -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg mb-4">
+                <i class="fas fa-shopping-bag text-3xl text-indigo-600"></i>
             </div>
-        @endif
+            <h1 class="text-2xl font-bold text-white mb-2">E-Dukan</h1>
+            <p class="text-indigo-100">Your Premier Shopping Destination</p>
+        </div>
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-                <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus autocomplete="username"
-                       class="mt-1 block w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-gray-900 dark:text-white">
-                @error('email')
-                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                @enderror
+        <!-- Login Form -->
+        <div class="glass-effect rounded-3xl shadow-2xl p-8">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-white mb-2">Welcome Back 👋</h2>
+                <p class="text-indigo-100">Sign in to your account</p>
             </div>
 
-            <!-- Password -->
-            <div class="mb-4">
-                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
-                <input id="password" name="password" type="password" required autocomplete="current-password"
-                       class="mt-1 block w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-gray-900 dark:text-white">
-                @error('password')
-                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+            @if (session('status'))
+                <div class="mb-6 p-4 bg-green-500 bg-opacity-20 border border-green-400 rounded-lg text-green-100 text-sm">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-            <!-- Remember Me -->
-            <div class="flex items-center mb-4">
-                <input id="remember_me" name="remember" type="checkbox"
-                       class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 dark:border-gray-600 rounded">
-                <label for="remember_me" class="ml-2 block text-sm text-gray-900 dark:text-gray-400">
-                    Remember me
-                </label>
-            </div>
+            <form method="POST" action="{{ route('login') }}" class="space-y-6">
+                @csrf
 
-            <!-- Submit & Forgot -->
-            <div class="flex items-center justify-between">
-                @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}"
-                       class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
-                        Forgot your password?
-                    </a>
-                @endif
+                <!-- Email Address -->
+                <div>
+                    <label for="email" class="block text-sm font-semibold text-white mb-2">
+                        <i class="fas fa-envelope mr-2"></i>Email Address
+                    </label>
+                    <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus autocomplete="username"
+                           class="w-full px-4 py-3 bg-white bg-opacity-90 border-0 rounded-xl text-gray-800 placeholder-gray-500 input-focus transition-all duration-300 focus:bg-white focus:outline-none">
+                    @error('email')
+                        <p class="mt-2 text-sm text-red-300">{{ $message }}</p>
+                    @enderror
+                </div>
 
+                <!-- Password -->
+                <div>
+                    <label for="password" class="block text-sm font-semibold text-white mb-2">
+                        <i class="fas fa-lock mr-2"></i>Password
+                    </label>
+                    <input id="password" name="password" type="password" required autocomplete="current-password"
+                           class="w-full px-4 py-3 bg-white bg-opacity-90 border-0 rounded-xl text-gray-800 placeholder-gray-500 input-focus transition-all duration-300 focus:bg-white focus:outline-none">
+                    @error('password')
+                        <p class="mt-2 text-sm text-red-300">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center text-white">
+                        <input id="remember_me" name="remember" type="checkbox"
+                               class="mr-2 w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                        <span class="text-sm">Remember me</span>
+                    </label>
+
+                    @if (Route::has('password.request'))
+                        <a href="{{ route('password.request') }}"
+                           class="text-sm text-indigo-200 hover:text-white transition-colors">
+                            Forgot password?
+                        </a>
+                    @endif
+                </div>
+
+                <!-- Submit Button -->
                 <button type="submit"
-                        class="ml-4 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Log in
+                        class="w-full py-3 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Sign In
                 </button>
-            </div>
-        </form>
+            </form>
 
-        <div class="mt-6 text-center">
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-                Don't have an account?
-                <a href="{{ route('register') }}" class="text-indigo-600 hover:underline dark:text-indigo-400">Register</a>
-            </p>
+            <!-- Divider -->
+            <div class="my-6 flex items-center">
+                <div class="flex-1 border-t border-white border-opacity-30"></div>
+                <span class="px-4 text-white text-opacity-70 text-sm">OR</span>
+                <div class="flex-1 border-t border-white border-opacity-30"></div>
+            </div>
+
+            <!-- Register Link -->
+            <div class="text-center">
+                <p class="text-white text-opacity-80">
+                    Don't have an account?
+                    <a href="{{ route('register') }}" class="text-indigo-200 hover:text-white font-semibold transition-colors">
+                        Create one now
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="text-center mt-6">
+            <a href="{{ route('shop.index') }}" class="text-white text-opacity-70 hover:text-white transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Home
+            </a>
         </div>
     </div>
 

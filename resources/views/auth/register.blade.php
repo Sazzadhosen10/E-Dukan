@@ -1,115 +1,159 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" >
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Register - E_Dukan</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - E-Dukan</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* subtle input icon container */
-        .input-icon {
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .floating-label {
+            position: relative;
+        }
+        .floating-label input:focus + label,
+        .floating-label input:not(:placeholder-shown) + label {
+            transform: translateY(-1.5rem) scale(0.85);
+            color: #a5b4fc;
+        }
+        .floating-label label {
             position: absolute;
             left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 1rem;
+            transition: all 0.3s ease;
             pointer-events: none;
-            color: #9ca3af; /* gray-400 */
-        }
-        /* add padding left for input with icon */
-        .input-with-icon {
-            padding-left: 2.75rem; /* enough for icon */
+            color: #9ca3af;
         }
     </style>
 </head>
-<body class="bg-gradient-to-tr from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex items-center justify-center p-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
 
-  <div class="w-full max-w-md bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-10">
-    <h2 class="text-4xl font-extrabold text-center text-indigo-700 dark:text-indigo-400 mb-8 tracking-tight">
-      Create Your Account
-    </h2>
+    <div class="w-full max-w-md">
+        <!-- Logo Section -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-lg mb-4">
+                <i class="fas fa-shopping-bag text-3xl text-indigo-600"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-white mb-2">E-Dukan</h1>
+            <p class="text-indigo-100">Your Premier Shopping Destination</p>
+        </div>
 
-    <form method="POST" action="{{ route('register') }}" class="space-y-6">
-      @csrf
+        <!-- Registration Form -->
+        <div class="glass-effect rounded-3xl shadow-2xl p-8">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-white mb-2">Create Account ✨</h2>
+                <p class="text-indigo-100">Join our community today</p>
+            </div>
 
-      {{-- Name --}}
-      <div class="relative">
-        <label for="name" class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Full Name</label>
-        <svg xmlns="http://www.w3.org/2000/svg" class="input-icon h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A7.963 7.963 0 0112 15a7.963 7.963 0 016.879 2.804M12 12a4 4 0 100-8 4 4 0 000 8z" />
-        </svg>
-        <input
-          id="name" name="name" type="text" autocomplete="name" required autofocus
-          value="{{ old('name') }}"
-          placeholder="John Doe"
-          class="input-with-icon w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 py-3 px-4 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 shadow-sm focus:outline-none focus:ring-4 focus:ring-indigo-400 focus:border-indigo-600 transition"
-        />
-        @error('name')
-          <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-        @enderror
-      </div>
+            <form method="POST" action="{{ route('register') }}" class="space-y-6">
+                @csrf
 
-      {{-- Email --}}
-      <div class="relative">
-        <label for="email" class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Email Address</label>
-        <svg xmlns="http://www.w3.org/2000/svg" class="input-icon h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M16 12l-4-4-4 4m0 0l4 4 4-4" />
-        </svg>
-        <input
-          id="email" name="email" type="email" autocomplete="username" required
-          value="{{ old('email') }}"
-          placeholder="john@example.com"
-          class="input-with-icon w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 py-3 px-4 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 shadow-sm focus:outline-none focus:ring-4 focus:ring-indigo-400 focus:border-indigo-600 transition"
-        />
-        @error('email')
-          <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-        @enderror
-      </div>
+                <!-- Full Name -->
+                <div class="floating-label">
+                    <input id="name" name="name" type="text" autocomplete="name" required autofocus
+                           value="{{ old('name') }}" placeholder="John Doe"
+                           class="w-full px-4 py-3 bg-white bg-opacity-90 border-0 rounded-xl text-gray-800 placeholder-transparent input-focus transition-all duration-300 focus:bg-white focus:outline-none">
+                    <label for="name" class="text-sm font-medium">
+                        <i class="fas fa-user mr-2"></i>Full Name
+                    </label>
+                    @error('name')
+                        <p class="mt-2 text-sm text-red-300">{{ $message }}</p>
+                    @enderror
+                </div>
 
-      {{-- Password --}}
-      <div class="relative">
-        <label for="password" class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Password</label>
-        <svg xmlns="http://www.w3.org/2000/svg" class="input-icon h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m6-6V9a6 6 0 10-12 0v2a2 2 0 002 2h8a2 2 0 002-2z" />
-        </svg>
-        <input
-          id="password" name="password" type="password" autocomplete="new-password" required
-          placeholder="At least 8 characters"
-          class="input-with-icon w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 py-3 px-4 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 shadow-sm focus:outline-none focus:ring-4 focus:ring-indigo-400 focus:border-indigo-600 transition"
-        />
-        @error('password')
-          <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-        @enderror
-      </div>
+                <!-- Email Address -->
+                <div class="floating-label">
+                    <input id="email" name="email" type="email" autocomplete="username" required
+                           value="{{ old('email') }}" placeholder="john@example.com"
+                           class="w-full px-4 py-3 bg-white bg-opacity-90 border-0 rounded-xl text-gray-800 placeholder-transparent input-focus transition-all duration-300 focus:bg-white focus:outline-none">
+                    <label for="email" class="text-sm font-medium">
+                        <i class="fas fa-envelope mr-2"></i>Email Address
+                    </label>
+                    @error('email')
+                        <p class="mt-2 text-sm text-red-300">{{ $message }}</p>
+                    @enderror
+                </div>
 
-      {{-- Confirm Password --}}
-      <div class="relative">
-        <label for="password_confirmation" class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Confirm Password</label>
-        <svg xmlns="http://www.w3.org/2000/svg" class="input-icon h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-        </svg>
-        <input
-          id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required
-          placeholder="Confirm your password"
-          class="input-with-icon w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 py-3 px-4 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 shadow-sm focus:outline-none focus:ring-4 focus:ring-indigo-400 focus:border-indigo-600 transition"
-        />
-        @error('password_confirmation')
-          <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-        @enderror
-      </div>
+                <!-- Password -->
+                <div class="floating-label">
+                    <input id="password" name="password" type="password" autocomplete="new-password" required
+                           placeholder="At least 8 characters"
+                           class="w-full px-4 py-3 bg-white bg-opacity-90 border-0 rounded-xl text-gray-800 placeholder-transparent input-focus transition-all duration-300 focus:bg-white focus:outline-none">
+                    <label for="password" class="text-sm font-medium">
+                        <i class="fas fa-lock mr-2"></i>Password
+                    </label>
+                    @error('password')
+                        <p class="mt-2 text-sm text-red-300">{{ $message }}</p>
+                    @enderror
+                </div>
 
-      <div class="flex items-center justify-between mt-6">
-        <a href="{{ route('login') }}" class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
-          Already registered?
-        </a>
-        <button
-          type="submit"
-          class="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold shadow-lg hover:brightness-110 transition"
-        >
-          Register
-        </button>
-      </div>
-    </form>
-  </div>
+                <!-- Confirm Password -->
+                <div class="floating-label">
+                    <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required
+                           placeholder="Confirm your password"
+                           class="w-full px-4 py-3 bg-white bg-opacity-90 border-0 rounded-xl text-gray-800 placeholder-transparent input-focus transition-all duration-300 focus:bg-white focus:outline-none">
+                    <label for="password_confirmation" class="text-sm font-medium">
+                        <i class="fas fa-check-circle mr-2"></i>Confirm Password
+                    </label>
+                    @error('password_confirmation')
+                        <p class="mt-2 text-sm text-red-300">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="flex items-start">
+                    <input id="terms" name="terms" type="checkbox" required
+                           class="mt-1 mr-3 w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                    <label for="terms" class="text-sm text-white text-opacity-80">
+                        I agree to the 
+                        <a href="#" class="text-indigo-200 hover:text-white underline">Terms of Service</a> 
+                        and 
+                        <a href="#" class="text-indigo-200 hover:text-white underline">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                        class="w-full py-3 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50">
+                    <i class="fas fa-user-plus mr-2"></i>Create Account
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="my-6 flex items-center">
+                <div class="flex-1 border-t border-white border-opacity-30"></div>
+                <span class="px-4 text-white text-opacity-70 text-sm">OR</span>
+                <div class="flex-1 border-t border-white border-opacity-30"></div>
+            </div>
+
+            <!-- Login Link -->
+            <div class="text-center">
+                <p class="text-white text-opacity-80">
+                    Already have an account?
+                    <a href="{{ route('login') }}" class="text-indigo-200 hover:text-white font-semibold transition-colors">
+                        Sign in here
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="text-center mt-6">
+            <a href="{{ route('shop.index') }}" class="text-white text-opacity-70 hover:text-white transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Home
+            </a>
+        </div>
+    </div>
 
 </body>
 </html>
