@@ -67,7 +67,10 @@ class UserDashboardController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('user.orders', compact('orders'));
+        // Get cart count
+        $cartCount = Cart::where('user_id', $user->id)->sum('quantity');
+
+        return view('user.orders', compact('orders', 'cartCount'));
     }
 
     /**
@@ -76,6 +79,46 @@ class UserDashboardController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        return view('user.profile', compact('user'));
+        
+        // Get cart count
+        $cartCount = Cart::where('user_id', $user->id)->sum('quantity');
+
+        return view('user.profile', compact('user', 'cartCount'));
+    }
+
+    /**
+     * Cancel an order
+     */
+    public function cancelOrder(Request $request, Order $order)
+    {
+        // Check if the user owns this order
+        if ($order->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Check if order can be cancelled using the model method
+        if (!$order->canBeCancelled()) {
+            return back()->with('error', 'This order cannot be cancelled. Only pending orders can be cancelled.');
+        }
+
+        // Get cancellation reason
+        $cancellationReason = $request->input('cancellation_reason');
+        
+        // Prepare notes update
+        $notes = $order->notes ? $order->notes . "\n\n" : "";
+        $notes .= "Order cancelled on " . now()->format('M d, Y \a\t g:i A');
+        if ($cancellationReason) {
+            $notes .= "\nReason: " . $cancellationReason;
+        }
+
+        // Cancel the order using the model method
+        if ($order->cancel()) {
+            // Update notes with cancellation information
+            $order->update(['notes' => $notes]);
+            
+            return back()->with('success', 'Order #' . $order->id . ' has been cancelled successfully.');
+        }
+
+        return back()->with('error', 'Failed to cancel the order. Please try again or contact support.');
     }
 }

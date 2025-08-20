@@ -74,6 +74,12 @@ class ShopController extends Controller
             ->ordered()
             ->get();
 
+        // Get cart count for authenticated users
+        $cartCount = 0;
+        if (\Illuminate\Support\Facades\Auth::check()) {
+            $cartCount = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->sum('quantity');
+        }
+
         return view('shop.index', compact(
             'sliders',
             'featuredProducts',
@@ -83,7 +89,8 @@ class ShopController extends Controller
             'categories',
             'valuePropSections',
             'testimonials',
-            'brandPartners'
+            'brandPartners',
+            'cartCount'
         ));
     }
 
@@ -109,7 +116,13 @@ class ShopController extends Controller
                 ->paginate(12);
         }
 
-        return view('shop.category', compact('products', 'categories', 'category'));
+        // Get cart count for authenticated users
+        $cartCount = 0;
+        if (\Illuminate\Support\Facades\Auth::check()) {
+            $cartCount = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->sum('quantity');
+        }
+
+        return view('shop.category', compact('products', 'categories', 'category', 'cartCount'));
     }
 
     /**
@@ -147,13 +160,20 @@ class ShopController extends Controller
             ? $categoryProductIds[$currentIndex + 1]
             : null;
 
+        // Get cart count for authenticated users
+        $cartCount = 0;
+        if (\Illuminate\Support\Facades\Auth::check()) {
+            $cartCount = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->sum('quantity');
+        }
+
         return view('shop.product', compact(
             'product',
             'relatedProducts',
             'prevProductId',
             'nextProductId',
             'positionInCategory',
-            'totalInCategory'
+            'totalInCategory',
+            'cartCount'
         ));
     }
 
@@ -162,7 +182,13 @@ class ShopController extends Controller
      */
     public function cart()
     {
-        return view('shop.cart');
+        // Get cart count for authenticated users
+        $cartCount = 0;
+        if (\Illuminate\Support\Facades\Auth::check()) {
+            $cartCount = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->sum('quantity');
+        }
+
+        return view('shop.cart', compact('cartCount'));
     }
 
     /**
@@ -170,7 +196,13 @@ class ShopController extends Controller
      */
     public function checkout()
     {
-        return view('shop.checkout');
+        // Get cart count for authenticated users
+        $cartCount = 0;
+        if (\Illuminate\Support\Facades\Auth::check()) {
+            $cartCount = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->sum('quantity');
+        }
+
+        return view('shop.checkout', compact('cartCount'));
     }
 
     /**
@@ -178,13 +210,19 @@ class ShopController extends Controller
      */
     public function profile()
     {
-        $user = auth()->user();
+        $user = \Illuminate\Support\Facades\Auth::user();
         $orders = Order::where('user_id', $user->id)
             ->with('orderItems.product')
             ->latest()
             ->paginate(10);
 
-        return view('shop.profile', compact('user', 'orders'));
+        // Get cart count for authenticated users
+        $cartCount = 0;
+        if (\Illuminate\Support\Facades\Auth::check()) {
+            $cartCount = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->sum('quantity');
+        }
+
+        return view('shop.profile', compact('user', 'orders', 'cartCount'));
     }
 
     /**
@@ -201,6 +239,12 @@ class ShopController extends Controller
             ->with('category')
             ->paginate(12);
 
-        return view('shop.search', compact('products', 'query'));
+        // Get cart count for authenticated users
+        $cartCount = 0;
+        if (\Illuminate\Support\Facades\Auth::check()) {
+            $cartCount = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->sum('quantity');
+        }
+
+        return view('shop.search', compact('products', 'query', 'cartCount'));
     }
 }

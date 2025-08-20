@@ -123,4 +123,27 @@ class Order extends Model
         
         $this->update(['payment_status' => $paymentStatus]);
     }
+
+    /**
+     * Check if the order can be cancelled
+     */
+    public function canBeCancelled(): bool
+    {
+        return $this->status === 'pending';
+    }
+
+    /**
+     * Cancel the order
+     */
+    public function cancel(): bool
+    {
+        if (!$this->canBeCancelled()) {
+            return false;
+        }
+
+        $this->update(['status' => 'cancelled']);
+        $this->updatePaymentStatusFromOrderStatus();
+        
+        return true;
+    }
 }

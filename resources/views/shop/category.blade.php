@@ -22,12 +22,12 @@
 
     <style>
         :root {
-            --primary-color: #2c5aa0;
-            --secondary-color: #f8f9fa;
-            --accent-color: #ff6b35;
-            --text-dark: #2d3748;
-            --text-light: #718096;
-            --border-color: #e2e8f0;
+            --primary-color: #059669; /* emerald-600 */
+            --secondary-color: #f8fafc; /* slate-50 */
+            --accent-color: #0284c7; /* sky-600 */
+            --text-dark: #0f172a; /* slate-900 */
+            --text-light: #475569; /* slate-600 */
+            --border-color: #e2e8f0; /* slate-200 */
         }
 
         /* Reset margins and padding for full-width slider */
@@ -43,12 +43,6 @@
         }
 
         /* Header Styles */
-        .header-top {
-            background: linear-gradient(135deg, var(--primary-color) 0%, #1e3a8a 100%);
-            color: white;
-            padding: 8px 0;
-            font-size: 14px;
-        }
 
         .main-header {
             background: white;
@@ -147,19 +141,29 @@
 
         .product-image {
             position: relative;
-            height: 250px;
+            height: 220px;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
         }
 
         .product-image img {
-            width: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* show full image within the card */
             transition: transform 0.3s ease;
+            padding: 8px;
+            background: #fff;
+            display: block;
+            margin: 0 auto;
         }
 
-        .product-card:hover .product-image img {
-            transform: scale(1.05);
+        .product-card:hover .product-image img { 
+            transform: scale(1.02); 
         }
 
         .product-badge {
@@ -179,11 +183,15 @@
         }
 
         .product-title {
-            font-size: 1.1rem;
+            font-size: 1rem; /* medium */
             font-weight: 600;
             color: var(--text-dark);
-            margin-bottom: 8px;
-            line-height: 1.4;
+            margin-bottom: 6px;
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .product-price {
@@ -199,10 +207,47 @@
             gap: 10px;
         }
 
-        .btn-add-cart { grid-column: 1 / span 1; background: var(--primary-color); color: #fff; border: none; padding: 10px 14px; border-radius: 10px; font-weight: 700; box-shadow: 0 6px 14px rgba(44, 90, 160, 0.25); transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease; }
-        .btn-add-cart:hover { background: #224a8e; color: #fff; transform: translateY(-1px); box-shadow: 0 10px 20px rgba(44, 90, 160, 0.35); }
-        .btn-buy-now { grid-column: 2 / span 1; background: linear-gradient(135deg, #ff6b35, #ff8a35); color: #fff; border: none; padding: 10px 14px; border-radius: 10px; font-weight: 700; box-shadow: 0 6px 14px rgba(255, 107, 53, 0.25); transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-buy-now:hover { background: linear-gradient(135deg, #e55a2b, #ff7a2b); color: #fff; transform: translateY(-1px); box-shadow: 0 10px 20px rgba(255, 107, 53, 0.35); }
+        .btn-add-cart { 
+            grid-column: 1 / span 1; 
+            background: var(--primary-color); 
+            color: #fff; 
+            border: none; 
+            padding: 6px 10px; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            font-size: 0.9rem;
+            box-shadow: 0 3px 8px rgba(5, 150, 105, 0.18); 
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease; 
+        }
+        .btn-add-cart:hover { 
+            background: #047857; 
+            color: #fff; 
+            transform: translateY(-1px); 
+            box-shadow: 0 8px 16px rgba(5, 150, 105, 0.25); 
+        }
+        .btn-buy-now { 
+            grid-column: 2 / span 1; 
+            background: linear-gradient(135deg, var(--accent-color), #38bdf8); 
+            color: #fff; 
+            border: none; 
+            padding: 6px 10px; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            font-size: 0.9rem;
+            box-shadow: 0 3px 8px rgba(2, 132, 199, 0.2); 
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease; 
+            text-decoration: none; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+        }
+        .btn-buy-now:hover { 
+            background: linear-gradient(135deg, #0369a1, var(--accent-color)); 
+            color: #fff; 
+            transform: translateY(-1px); 
+            box-shadow: 0 8px 16px rgba(2, 132, 199, 0.3); 
+        }
         .btn-view-details { display: inline-flex; align-items: center; gap: 6px; color: var(--text-dark); text-decoration: none; font-weight: 600; opacity: 0.9; transition: color 0.2s ease, opacity 0.2s ease; }
         .btn-view-details:hover { color: var(--primary-color); opacity: 1; text-decoration: underline; }
 
@@ -222,37 +267,6 @@
 </head>
 
 <body>
-    <!-- Header Top -->
-    <div class="header-top">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <span><i class="fas fa-phone me-2"></i>+1-800-123-4567</span>
-                    <span class="ms-3"><i class="fas fa-envelope me-2"></i>support@edukan.com</span>
-                </div>
-                <div class="col-md-6 text-end">
-                    @auth
-                    <span>Welcome back, {{ Auth::user()->name }}!</span>
-                    <a href="{{ route('logout') }}" class="text-white ms-2 text-decoration-none"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt me-1"></i>Logout
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                    @else
-                    <a href="{{ route('login') }}" class="text-white text-decoration-none">
-                        <i class="fas fa-sign-in-alt me-1"></i>Login
-                    </a>
-                    <a href="{{ route('register') }}" class="text-white ms-3 text-decoration-none">
-                        <i class="fas fa-user-plus me-1"></i>Register
-                    </a>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Header -->
     <header class="main-header">
         <nav class="navbar navbar-expand-lg navbar-light py-3">

@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
     Route::get('/my-orders', [UserDashboardController::class, 'orders'])->name('user.orders');
     Route::get('/my-profile', [UserDashboardController::class, 'profile'])->name('user.profile');
+    Route::post('/orders/{order}/cancel', [UserDashboardController::class, 'cancelOrder'])->name('user.orders.cancel');
 });
 
 // Admin Routes (requires admin authentication)
