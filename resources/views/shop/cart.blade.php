@@ -123,12 +123,12 @@
                                         @method('PATCH')
                                         <div class="input-group" style="max-width: 120px;">
                                             <button class="btn btn-outline-secondary btn-sm" type="button"
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown(); this.parentNode.querySelector('form').submit();">-</button>
+                                                onclick="(function(btn){ const form = btn.closest('form'); const input = form.querySelector('input[name=quantity]'); input.stepDown(); form.submit(); })(this)">-</button>
                                             <input type="number" name="quantity" value="{{ $item->quantity }}"
                                                 min="1" max="{{ $item->product->stock }}" class="form-control text-center"
                                                 onchange="this.form.submit()">
                                             <button class="btn btn-outline-secondary btn-sm" type="button"
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp(); this.parentNode.querySelector('form').submit();">+</button>
+                                                onclick="(function(btn){ const form = btn.closest('form'); const input = form.querySelector('input[name=quantity]'); input.stepUp(); form.submit(); })(this)">+</button>
                                         </div>
                                     </form>
                                 </div>

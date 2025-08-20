@@ -513,63 +513,51 @@
 
         /* Footer */
         .footer {
-            background: #1a202c;
-            color: white;
-            padding: 60px 0 30px;
+            background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
+            color: #e5e7eb;
+            padding: 64px 0 0;
         }
 
         .footer-section h5 {
-            color: white;
-            margin-bottom: 20px;
-            font-weight: 600;
+            color: #fff;
+            margin-bottom: 16px;
+            font-weight: 700;
+            letter-spacing: .2px;
         }
+
+        .footer-brand { color: #9ca3af; line-height: 1.7; }
 
         .footer-link {
-            color: #a0aec0;
+            color: #9ca3af;
             text-decoration: none;
             display: block;
-            padding: 5px 0;
-            transition: color 0.3s ease;
+            padding: 6px 0;
+            transition: color 0.2s ease, transform 0.2s ease;
         }
 
-        .footer-link:hover {
-            color: white;
-        }
+        .footer-link:hover { color: #fff; transform: translateX(2px); }
 
-        .social-icons {
-            display: flex;
-            gap: 15px;
-        }
+        .social-icons { display: flex; gap: 12px; align-items: center; justify-content: center; }
+        .footer-brand-wrap { text-align: center; }
 
         .social-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--primary-color);
-            color: white;
+            width: 38px;
+            height: 38px;
+            background: rgba(255,255,255,0.06);
+            color: #e5e7eb;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
+            border-radius: 10px;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
-        .social-icon:hover {
-            background: var(--accent-color);
-            color: white;
-            transform: translateY(-2px);
-        }
+        .social-icon:hover { background: #1f2937; color: #fff; transform: translateY(-2px); }
 
-        .payment-icons img {
-            height: 30px;
-            margin: 0 10px;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
-
-        .payment-icons img:hover {
-            opacity: 1;
-        }
+        .payment-icons { display: flex; align-items: center; gap: 12px; justify-content: center; }
+        .payment-badge { background: #0b1220; color: #e5e7eb; border: 1px solid #1f2937; border-radius: 9999px; padding: 6px 12px; font-weight: 600; }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -1125,63 +1113,64 @@
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-3 col-md-6">
-                    <div class="footer-section">
+                    <div class="footer-section footer-brand-wrap">
                         <h5>E-Dukan</h5>
-                        <p class="text-muted">Your premier destination for online shopping. Quality products, great prices, exceptional service.</p>
-                        <div class="social-icons">
-                            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <p class="footer-brand">Your premier destination for online shopping. Quality products, great prices, exceptional service.</p>
+                        <div class="social-icons mt-3">
+                            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-2 col-md-6">
                     <div class="footer-section">
-                        <h5>Quick Links</h5>
+                        <h5>Shop</h5>
                         <a href="{{ route('shop.index') }}" class="footer-link">Home</a>
-                        <a href="#" class="footer-link">About Us</a>
-                        <a href="#" class="footer-link">Contact</a>
-                        <a href="#" class="footer-link">FAQs</a>
-                        <a href="#" class="footer-link">Blog</a>
+                        <a href="{{ route('shop.category') }}" class="footer-link">Categories</a>
+                        <a href="#new-arrivals" class="footer-link">New Arrivals</a>
+                        <a href="#best-sellers" class="footer-link">Best Sellers</a>
+                        <a href="{{ route('shop.cart') }}" class="footer-link">Cart</a>
+                        @auth
+                        <a href="{{ route('shop.profile') }}" class="footer-link">My Account</a>
+                        @endauth
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-section">
-                        <h5>Customer Service</h5>
-                        <a href="#" class="footer-link">Shipping Info</a>
-                        <a href="#" class="footer-link">Returns Policy</a>
-                        <a href="#" class="footer-link">Size Guide</a>
-                        <a href="#" class="footer-link">Track Your Order</a>
-                        <a href="#" class="footer-link">Support Center</a>
+                        <h5>Support</h5>
+                        <a href="{{ route('support.info') }}" class="footer-link">Support Info</a>
+                        <a href="{{ route('support.returns') }}" class="footer-link">Returns Policy</a>
+                        <a href="tel:+18001234567" class="footer-link">Call Us: +1 800 123 4567</a>
+                        <a href="mailto:support@edukan.com" class="footer-link">Email: support@edukan.com</a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="footer-section">
-                        <h5>Contact Info</h5>
-                        <div class="footer-link"><i class="fas fa-map-marker-alt me-2"></i>123 Commerce St, City, State 12345</div>
 
-                        <h6 class="mt-4 mb-3">We Accept</h6>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-section">
+                        <h5>Policy</h5>
+                        <a href="{{ route('policy.privacy') }}" class="footer-link">Privacy Policy</a>
+                        <a href="{{ route('policy.terms') }}" class="footer-link">Terms of Service</a>
+                        <a href="{{ route('policy.cookies') }}" class="footer-link">Cookie Policy</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-section text-center">
+                        <h5>We Accept</h5>
                         <div class="payment-icons">
-                            <i class="fab fa-cc-visa fa-2x me-2"></i>
-                            <i class="fab fa-cc-mastercard fa-2x me-2"></i>
-                            <i class="fab fa-cc-paypal fa-2x me-2"></i>
-                            <i class="fab fa-cc-stripe fa-2x"></i>
+                            <span class="payment-badge">Cash on Delivery</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <hr class="my-4 border-secondary">
+            <hr class="my-4" style="border-color:#1f2937; opacity:.6;">
 
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <p class="mb-0 text-muted">&copy; 2025 E-Dukan. All rights reserved.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <a href="#" class="footer-link me-3">Privacy Policy</a>
-                    <a href="#" class="footer-link me-3">Terms of Service</a>
-                    <a href="#" class="footer-link">Cookie Policy</a>
+            <div class="row py-3" style="border-top: 1px solid #1f2937;">
+                <div class="col-12">
+                    <p class="mb-0 text-center" style="color:#9ca3af;">&copy; 2025 E-Dukan. All rights reserved.</p>
                 </div>
             </div>
         </div>

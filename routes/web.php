@@ -38,6 +38,15 @@ Route::prefix('shop')->group(function () {
     });
 });
 
+// Public Policy Pages
+Route::view('/privacy-policy', 'shop.privacy')->name('policy.privacy');
+Route::view('/terms-of-service', 'shop.terms')->name('policy.terms');
+Route::view('/cookie-policy', 'shop.cookies')->name('policy.cookies');
+
+// Public Support Pages
+Route::view('/support-info', 'shop.support')->name('support.info');
+Route::view('/returns-policy', 'shop.returns')->name('support.returns');
+
 // User Profile Routes (provided by Breeze)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -81,6 +90,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::post('/sliders', [AdminController::class, 'storeSlider'])->name('admin.sliders.store');
     Route::put('/sliders/{slider}', [AdminController::class, 'updateSlider'])->name('admin.sliders.update');
     Route::delete('/sliders/{slider}', [AdminController::class, 'destroySlider'])->name('admin.sliders.destroy');
+
 
     // Orders
     Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders');

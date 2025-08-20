@@ -435,6 +435,8 @@
                                     <td>{{ $loop->iteration + ($categories->currentPage() - 1) * $categories->perPage() }}</td>
                                     <td>
                                         <strong>{{ $category->name }}</strong>
+                                        <br>
+                                        <small class="text-muted">ID: {{ $category->id }}</small>
                                     </td>
                                     <td>
                                         @if($category->description)

@@ -349,7 +349,7 @@ class AdminController extends Controller
             'description' => 'nullable|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'button_text' => 'nullable|string|max:100',
-            'button_link' => 'nullable|url|max:255',
+            'button_link' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
         ]);
@@ -386,7 +386,7 @@ class AdminController extends Controller
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'button_text' => 'nullable|string|max:100',
-            'button_link' => 'nullable|url|max:255',
+            'button_link' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'boolean',
         ]);
@@ -431,4 +431,6 @@ class AdminController extends Controller
         $slider->delete();
         return redirect()->back()->with('success', 'Slider deleted successfully!');
     }
+
+    // fixSliderYear helper removed per request
 }

@@ -148,7 +148,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="button_link" class="form-label">Button Link</label>
-                                <input type="url" class="form-control" id="button_link" name="button_link" placeholder="https://example.com">
+                                <input type="text" class="form-control" id="button_link" name="button_link" placeholder="/shop/category or full URL">
                             </div>
                         </div>
                     </div>
@@ -229,7 +229,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="edit_button_link{{ $slider->id }}" class="form-label">Button Link</label>
-                                <input type="url" class="form-control" id="edit_button_link{{ $slider->id }}"
+                                <input type="text" class="form-control" id="edit_button_link{{ $slider->id }}"
                                     name="button_link" value="{{ $slider->button_link }}" placeholder="https://example.com">
                             </div>
                         </div>
