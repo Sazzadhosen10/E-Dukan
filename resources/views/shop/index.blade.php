@@ -393,20 +393,28 @@
 
         .product-image {
             position: relative;
-            height: 250px;
+            height: 220px;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
         }
 
         .product-image img {
-            width: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* show full image within the card */
             transition: transform 0.3s ease;
+            padding: 8px;
+            background: #fff;
+            display: block;
+            margin: 0 auto;
         }
 
-        .product-card:hover .product-image img {
-            transform: scale(1.05);
-        }
+        .product-card:hover .product-image img { transform: scale(1.02); }
 
         .product-badge {
             position: absolute;
@@ -425,11 +433,15 @@
         }
 
         .product-title {
-            font-size: 1.1rem;
+            font-size: 1rem; /* medium */
             font-weight: 600;
             color: var(--text-dark);
-            margin-bottom: 8px;
-            line-height: 1.4;
+            margin-bottom: 6px;
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .product-price {
@@ -439,22 +451,18 @@
             margin-bottom: 15px;
         }
 
-        .product-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
+        .product-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
         .btn-add-cart {
             grid-column: 1 / span 1;
             background: var(--primary-color);
             color: #fff;
             border: none;
-            padding: 8px 12px;
+            padding: 6px 10px; /* medium */
             border-radius: 8px;
             font-weight: 600;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.18);
+            font-size: 0.9rem;
+            box-shadow: 0 3px 8px rgba(5, 150, 105, 0.18);
             transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
         }
 
@@ -470,11 +478,11 @@
             background: linear-gradient(135deg, var(--accent-color), #38bdf8);
             color: #fff;
             border: none;
-            padding: 8px 12px;
+            padding: 6px 10px; /* medium */
             border-radius: 8px;
             font-weight: 600;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.2);
+            font-size: 0.9rem;
+            box-shadow: 0 3px 8px rgba(2, 132, 199, 0.2);
             transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
             text-decoration: none;
             display: inline-flex;
@@ -840,7 +848,7 @@
                             <i class="fas fa-shipping-fast"></i>
                         </div>
                         <h5>Free Shipping</h5>
-                        <p class="text-muted mb-0">Free shipping on orders over $50</p>
+                        <p class="text-muted mb-0">Free shipping on orders over ৳ 5000</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
@@ -849,7 +857,7 @@
                             <i class="fas fa-undo-alt"></i>
                         </div>
                         <h5>Easy Returns</h5>
-                        <p class="text-muted mb-0">30-day hassle-free returns</p>
+                        <p class="text-muted mb-0">7 day hassle free returns for a full refund</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">

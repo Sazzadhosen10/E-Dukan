@@ -20,9 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Global money formatting directive for BDT
+        // Global money formatting directive for BDT (Taka)
         Blade::directive('money', function ($expression) {
-            return "<?php echo '৳' . number_format($expression, 2); ?>";
+            return "<?php echo '৳ ' . number_format((float) $expression, 2); ?>";
         });
 
         // Share cart count with all views

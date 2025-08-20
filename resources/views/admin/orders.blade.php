@@ -103,6 +103,14 @@
                                         data-bs-target="#orderModal{{ $order->id }}">
                                     <i class="fas fa-eye"></i> View
                                 </button>
+                                <form action="{{ route('admin.orders.destroy', $order) }}" method="POST" class="d-inline" 
+                                      onsubmit="return confirm('Are you sure you want to delete this order? This action cannot be undone.')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         @empty
@@ -209,6 +217,14 @@
                 <a href="mailto:{{ $order->shipping_email }}" class="btn btn-primary">
                     <i class="fas fa-envelope me-1"></i>Email Customer
                 </a>
+                <form action="{{ route('admin.orders.destroy', $order) }}" method="POST" class="d-inline" 
+                      onsubmit="return confirm('Are you sure you want to delete this order? This action cannot be undone.')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash me-1"></i>Delete Order
+                    </button>
+                </form>
             </div>
         </div>
     </div>

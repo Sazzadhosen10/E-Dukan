@@ -78,7 +78,7 @@
             </nav>
 
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="mb-0">Shopping Cart ({{ $cartItems->count() }} items)</h4>
@@ -103,10 +103,10 @@
                                 <div class="col-md-2">
                                     @if($item->product->image)
                                     <img src="{{ asset($item->product->image) }}" alt="{{ $item->product->name }}"
-                                        class="img-fluid rounded" style="width: 80px; height: 80px; object-fit: cover;">
+                                        class="img-fluid rounded" style="width: 120px; height: 120px; object-fit: cover;">
                                     @else
                                     <div class="bg-light rounded d-flex align-items-center justify-content-center"
-                                        style="width: 80px; height: 80px;">
+                                        style="width: 120px; height: 120px;">
                                         <i class="fas fa-image text-muted"></i>
                                     </div>
                                     @endif
@@ -175,7 +175,7 @@
                 </div>
 
                 @if($cartItems->count() > 0)
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="card">
                         <div class="card-header">
                             <h5 class="mb-0">Order Summary</h5>

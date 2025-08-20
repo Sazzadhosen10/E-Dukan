@@ -95,6 +95,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // Orders
     Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders');
     Route::patch('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('admin.orders.updateStatus');
+    Route::delete('/orders/{order}', [AdminController::class, 'destroyOrder'])->name('admin.orders.destroy');
 });
 
 // Admin Login (separate from regular login)

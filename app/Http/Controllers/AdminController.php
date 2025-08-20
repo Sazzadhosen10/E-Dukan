@@ -432,5 +432,19 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Slider deleted successfully!');
     }
 
+    /**
+     * Delete an order
+     */
+    public function destroyOrder(Order $order)
+    {
+        try {
+            // Delete the order (this will cascade delete order items due to foreign key constraints)
+            $order->delete();
+            return redirect()->back()->with('success', 'Order deleted successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to delete order. Please try again.');
+        }
+    }
+
     // fixSliderYear helper removed per request
 }
