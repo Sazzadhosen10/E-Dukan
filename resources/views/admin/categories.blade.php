@@ -50,13 +50,13 @@
     }
 
     .card-header.bg-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        background: linear-gradient(135deg, #111111 0%, #333333 100%);
+        color: #f5f5f5;
     }
 
     .card-header.bg-secondary {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        color: white;
+        background: linear-gradient(135deg, #222222 0%, #444444 100%);
+        color: #f5f5f5;
     }
 
     .card-header h5 {
@@ -145,52 +145,22 @@
         gap: 8px;
     }
 
-    .btn-success {
-        background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-        color: white;
-        box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
-    }
-
-    .btn-success:hover {
-        background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
-        transform: translateY(-1px);
-        box-shadow: 0 6px 16px rgba(72, 187, 120, 0.4);
-    }
-
-    .btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-    }
-
-    .btn-primary:hover {
-        background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-        transform: translateY(-1px);
-        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
-    }
-
-    .btn-danger {
-        background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
-        color: white;
-        box-shadow: 0 4px 12px rgba(245, 101, 101, 0.3);
-    }
-
-    .btn-danger:hover {
-        background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
-        transform: translateY(-1px);
-        box-shadow: 0 6px 16px rgba(245, 101, 101, 0.4);
-    }
-
+    .btn-success,
+    .btn-primary,
+    .btn-danger,
     .btn-warning {
-        background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
-        color: white;
-        box-shadow: 0 4px 12px rgba(237, 137, 54, 0.3);
+        background: linear-gradient(135deg, #111111 0%, #333333 100%);
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
 
+    .btn-success:hover,
+    .btn-primary:hover,
+    .btn-danger:hover,
     .btn-warning:hover {
-        background: linear-gradient(135deg, #dd6b20 0%, #c05621 100%);
+        background: linear-gradient(135deg, #000000 0%, #222222 100%);
         transform: translateY(-1px);
-        box-shadow: 0 6px 16px rgba(237, 137, 54, 0.4);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
     }
 
     .btn-sm {
@@ -207,8 +177,8 @@
     }
 
     .table thead th {
-        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-        color: #374151;
+        background: linear-gradient(135deg, #111111 0%, #333333 100%);
+        color: #ffffff;
         font-weight: 700;
         padding: 18px 15px;
         border: none;
@@ -273,16 +243,16 @@
     }
 
     .page-link:hover {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-color: #667eea;
-        color: white;
+        background: linear-gradient(135deg, #111111 0%, #333333 100%);
+        border-color: #111111;
+        color: #ffffff;
         transform: translateY(-1px);
     }
 
     .page-item.active .page-link {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-color: #667eea;
-        color: white;
+        background: linear-gradient(135deg, #000000 0%, #222222 100%);
+        border-color: #000000;
+        color: #ffffff;
     }
 
     /* Form Inline Styling */
@@ -375,14 +345,8 @@
         border-radius: 10px;
     }
 
-    .table-responsive::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 10px;
-    }
-
-    .table-responsive::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-    }
+    .table-responsive::-webkit-scrollbar-thumb { background: #333333; border-radius: 10px; }
+    .table-responsive::-webkit-scrollbar-thumb:hover { background: #444444; }
 </style>
 
 <div class="container mt-4">
@@ -521,7 +485,7 @@
 
                 <!-- Pagination -->
                 <div class="d-flex justify-content-center mt-4">
-                    {{ $categories->links() }}
+                    {{ $categories->links('admin.components.pagination') }}
                 </div>
             @else
                 <div class="text-center py-4">

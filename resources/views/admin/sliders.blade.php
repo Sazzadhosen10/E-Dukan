@@ -29,7 +29,7 @@
     <!-- Sliders Table -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">All Sliders</h6>
+            <h6 class="m-0">All Sliders</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -60,7 +60,7 @@
                             <td>{{ Str::limit($slider->description, 50) }}</td>
                             <td>
                                 @if($slider->button_text)
-                                <span class="badge bg-info">{{ $slider->button_text }}</span>
+                                <span class="badge bg-secondary">{{ $slider->button_text }}</span>
                                 @else
                                 <span class="text-muted">No button</span>
                                 @endif
@@ -68,13 +68,13 @@
                             <td>{{ $slider->sort_order }}</td>
                             <td>
                                 @if($slider->is_active)
-                                <span class="badge bg-success">Active</span>
+                                <span class="badge bg-secondary">Active</span>
                                 @else
                                 <span class="badge bg-secondary">Inactive</span>
                                 @endif
                             </td>
                             <td>
-                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#editSliderModal{{ $slider->id }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
@@ -82,7 +82,7 @@
                                     class="d-inline" onsubmit="return confirm('Are you sure you want to delete this slider?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">
+                                    <button type="submit" class="btn btn-sm btn-primary">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
@@ -96,7 +96,7 @@
                     </tbody>
                 </table>
             </div>
-            {{ $sliders->links() }}
+            {{ $sliders->links('admin.components.pagination') }}
         </div>
     </div>
 </div>

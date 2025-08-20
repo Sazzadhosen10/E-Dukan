@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('admin.layouts.admin')
 
 @section('title', 'Edit Product – E-Dukan')
 
@@ -274,6 +274,24 @@
                         <input type="checkbox" name="is_visible" class="form-check-input" id="is_visible" value="1" {{ old('is_visible', $product->is_visible) ? 'checked' : '' }}>
                         <label class="form-check-label" for="is_visible">
                             Make this product visible to customers
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" name="is_featured" class="form-check-input" id="is_featured" value="1" {{ old('is_featured', $product->is_featured ?? false) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_featured">
+                            Mark as Featured Product (shows on homepage)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" name="is_best_seller" class="form-check-input" id="is_best_seller" value="1" {{ old('is_best_seller', $product->is_best_seller ?? false) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_best_seller">
+                            Mark as Best Seller (shows in Best Sellers section)
                         </label>
                     </div>
                 </div>

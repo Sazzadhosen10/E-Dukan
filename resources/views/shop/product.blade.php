@@ -174,6 +174,15 @@
                 </div>
             </div>
 
+            <!-- Product Navigator and Result Info -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="d-flex justify-content-end align-items-center bg-white p-3 rounded-3 shadow-sm border">
+                        <a class="btn btn-outline-secondary btn-sm px-3 {{ !$prevProductId ? 'disabled' : '' }}" href="{{ $prevProductId ? route('shop.product', $prevProductId) : '#' }}" aria-disabled="{{ $prevProductId ? 'false' : 'true' }}">« Previous</a>
+                    </div>
+                </div>
+            </div>
+
             <!-- Related Products -->
             @if($relatedProducts->count() > 0)
             <div class="related-products mt-5">
@@ -223,7 +232,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <p>&copy; 2024 E-Dukan. All rights reserved.</p>
+                    <p>&copy; 2025 E-Dukan. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-end">
                     <a href="#" class="text-white me-3">Privacy Policy</a>

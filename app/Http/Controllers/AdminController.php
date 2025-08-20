@@ -185,6 +185,8 @@ class AdminController extends Controller
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_visible' => 'boolean',
+            'is_featured' => 'boolean',
+            'is_best_seller' => 'boolean',
         ]);
 
         $data = [
@@ -194,6 +196,8 @@ class AdminController extends Controller
             'stock' => $request->stock,
             'category_id' => $request->category_id,
             'is_visible' => $request->boolean('is_visible', true),
+            'is_featured' => $request->boolean('is_featured', false),
+            'is_best_seller' => $request->boolean('is_best_seller', false),
         ];
 
         // Handle image upload
@@ -231,6 +235,8 @@ class AdminController extends Controller
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_visible' => 'boolean',
+            'is_featured' => 'boolean',
+            'is_best_seller' => 'boolean',
         ]);
 
         $data = [
@@ -240,6 +246,8 @@ class AdminController extends Controller
             'stock' => $request->stock,
             'category_id' => $request->category_id,
             'is_visible' => $request->boolean('is_visible'),
+            'is_featured' => $request->boolean('is_featured'),
+            'is_best_seller' => $request->boolean('is_best_seller'),
         ];
 
         // Handle image upload

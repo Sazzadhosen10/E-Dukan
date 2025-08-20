@@ -26,7 +26,7 @@
     <!-- Users Table -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">All Users</h6>
+            <h6 class="m-0">All Users</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -49,9 +49,9 @@
                             <td>{{ $user->email }}</td>
                             <td>
                                 @if($user->is_admin)
-                                    <span class="badge bg-danger">Admin</span>
+                                    <span class="badge bg-secondary">Admin</span>
                                 @else
-                                    <span class="badge bg-primary">User</span>
+                                    <span class="badge bg-secondary">User</span>
                                 @endif
                             </td>
                             <td>{{ $user->created_at->format('M d, Y') }}</td>
@@ -61,7 +61,7 @@
                                           class="d-inline" onsubmit="return confirm('Are you sure you want to delete this user?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">
+                                        <button type="submit" class="btn btn-sm btn-primary">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
                                     </form>
@@ -78,7 +78,7 @@
                     </tbody>
                 </table>
             </div>
-            {{ $users->links() }}
+            {{ $users->links('admin.components.pagination') }}
         </div>
     </div>
 </div>

@@ -408,11 +408,7 @@
             </div>
 
             <!-- Pagination -->
-            @if($products->hasPages())
-            <div class="mt-6 d-flex justify-content-center">
-                {{ $products->links() }}
-            </div>
-            @endif
+            {{ $products->links('components.pagination') }}
         </div>
     </section>
 

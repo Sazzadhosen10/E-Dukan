@@ -19,7 +19,7 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="stat-label text-primary">Total Products</div>
+                        <div class="stat-label">Total Products</div>
                         <div class="stat-value">{{ $totalProducts }}</div>
                     </div>
                     <div class="col-auto">
@@ -36,7 +36,7 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="stat-label text-success">Total Categories</div>
+                        <div class="stat-label">Total Categories</div>
                         <div class="stat-value">{{ $totalCategories }}</div>
                     </div>
                     <div class="col-auto">
@@ -53,7 +53,7 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="stat-label text-info">Total Users</div>
+                        <div class="stat-label">Total Users</div>
                         <div class="stat-value">{{ $totalUsers }}</div>
                     </div>
                     <div class="col-auto">
@@ -70,7 +70,7 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="stat-label text-warning">Total Admins</div>
+                        <div class="stat-label">Total Admins</div>
                         <div class="stat-value">{{ $totalAdmins }}</div>
                     </div>
                     <div class="col-auto">
@@ -83,11 +83,11 @@
 
     <!-- Total Orders Card -->
     <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card stat-card h-100 py-2" style="border-left: 4px solid #17a2b8 !important;">
+        <div class="card stat-card h-100 py-2 border-left-info">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="stat-label" style="color: #17a2b8;">Total Orders</div>
+                        <div class="stat-label">Total Orders</div>
                         <div class="stat-value">{{ $totalOrders ?? 0 }}</div>
                     </div>
                     <div class="col-auto">
@@ -105,7 +105,7 @@
     <div class="col-lg-6 mb-4">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Quick Actions</h6>
+                <h6 class="m-0">Quick Actions</h6>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -115,17 +115,17 @@
                         </a>
                     </div>
                     <div class="col-6 mb-3">
-                        <a href="{{ route('admin.categories') }}" class="btn btn-success btn-block">
+                        <a href="{{ route('admin.categories') }}" class="btn btn-primary btn-block">
                             <i class="fas fa-plus"></i> Add Category
                         </a>
                     </div>
                     <div class="col-6 mb-3">
-                        <a href="{{ route('admin.users') }}" class="btn btn-info btn-block">
+                        <a href="{{ route('admin.users') }}" class="btn btn-primary btn-block">
                             <i class="fas fa-users"></i> Manage Users
                         </a>
                     </div>
                     <div class="col-6 mb-3">
-                        <a href="{{ route('shop.index') }}" class="btn btn-secondary btn-block">
+                        <a href="{{ route('shop.index') }}" class="btn btn-primary btn-block">
                             <i class="fas fa-eye"></i> View Store
                         </a>
                     </div>
@@ -138,25 +138,25 @@
     <div class="col-lg-6 mb-4">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">System Status</h6>
+                <h6 class="m-0">System Status</h6>
             </div>
             <div class="card-body">
                 <div class="mb-3">
                     <div class="d-flex justify-content-between">
                         <span>Server Status</span>
-                        <span class="badge bg-success">Online</span>
+                        <span class="badge bg-secondary">Online</span>
                     </div>
                 </div>
                 <div class="mb-3">
                     <div class="d-flex justify-content-between">
                         <span>Database</span>
-                        <span class="badge bg-success">Connected</span>
+                        <span class="badge bg-secondary">Connected</span>
                     </div>
                 </div>
                 <div class="mb-3">
                     <div class="d-flex justify-content-between">
                         <span>Storage</span>
-                        <span class="badge bg-warning">75% Used</span>
+                        <span class="badge bg-secondary">75% Used</span>
                     </div>
                 </div>
                 <div class="mb-3">

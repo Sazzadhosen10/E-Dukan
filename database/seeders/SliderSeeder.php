@@ -32,7 +32,7 @@ class SliderSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'title' => 'Fashion Trends 2024',
+                'title' => 'Fashion Trends 2025',
                 'description' => 'Stay ahead with the latest fashion trends. Premium clothing and accessories for everyone.',
                 'image' => 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
                 'button_text' => 'Explore Fashion',

@@ -25,6 +25,7 @@ class ShopController extends Controller
 
         // Get featured products
         $featuredProducts = Product::visible()
+            ->featured()
             ->inStock()
             ->with('category')
             ->take(8)
@@ -38,11 +39,11 @@ class ShopController extends Controller
             ->take(8)
             ->get();
 
-        // Get best selling products (mock for now - you can implement based on order items later)
+        // Get best selling products (admin-marked)
         $bestSellers = Product::visible()
+            ->bestSeller()
             ->inStock()
             ->with('category')
-            ->inRandomOrder()
             ->take(8)
             ->get();
 
@@ -128,7 +129,32 @@ class ShopController extends Controller
             ->take(4)
             ->get();
 
-        return view('shop.product', compact('product', 'relatedProducts'));
+        // Build Previous/Next navigation within the same category
+        $categoryProductIds = Product::visible()
+            ->where('category_id', $product->category_id)
+            ->orderBy('id')
+            ->pluck('id')
+            ->toArray();
+
+        $totalInCategory = count($categoryProductIds);
+        $currentIndex = array_search($product->id, $categoryProductIds, true);
+        $positionInCategory = $currentIndex !== false ? ($currentIndex + 1) : null;
+
+        $prevProductId = ($currentIndex !== false && $currentIndex > 0)
+            ? $categoryProductIds[$currentIndex - 1]
+            : null;
+        $nextProductId = ($currentIndex !== false && $currentIndex < $totalInCategory - 1)
+            ? $categoryProductIds[$currentIndex + 1]
+            : null;
+
+        return view('shop.product', compact(
+            'product',
+            'relatedProducts',
+            'prevProductId',
+            'nextProductId',
+            'positionInCategory',
+            'totalInCategory'
+        ));
     }
 
     /**

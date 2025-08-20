@@ -804,7 +804,12 @@
                 @foreach($sliders as $index => $slider)
                 <div class="swiper-slide" data-slide-index="{{ $index }}">
                     @if($slider->image)
-                    <img src="{{ $slider->image }}" alt="{{ $slider->title }}" loading="lazy" class="slider-image">
+                    @php
+                        $isAbsolute = Str::startsWith($slider->image, ['http://', 'https://']);
+                        $src = $isAbsolute ? $slider->image : asset($slider->image);
+                        $version = $slider->updated_at ? ('?v=' . $slider->updated_at->timestamp) : '';
+                    @endphp
+                    <img src="{{ $src }}{{ $version }}" alt="{{ $slider->title }}" loading="lazy" class="slider-image">
                     @else
                     <div class="slide-placeholder" style="width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: absolute; top: 0; left: 0; z-index: 1;"></div>
                     @endif
@@ -1171,7 +1176,7 @@
 
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <p class="mb-0 text-muted">&copy; 2024 E-Dukan. All rights reserved.</p>
+                    <p class="mb-0 text-muted">&copy; 2025 E-Dukan. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <a href="#" class="footer-link me-3">Privacy Policy</a>

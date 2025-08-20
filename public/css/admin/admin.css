@@ -12,9 +12,53 @@ body {
     background-color: #f8f9fa;
 }
 
+/* Monochrome overrides for Bootstrap utilities within admin */
+.wrapper .btn-primary,
+.wrapper .btn-success,
+.wrapper .btn-info,
+.wrapper .btn-warning,
+.wrapper .btn-secondary,
+.wrapper .btn-dark {
+    background: #111111;
+    border-color: #111111;
+    color: #ffffff;
+}
+
+.wrapper .btn-danger {
+    background: #000000;
+    border-color: #000000;
+    color: #ffffff;
+}
+
+.wrapper .btn-primary:hover,
+.wrapper .btn-success:hover,
+.wrapper .btn-info:hover,
+.wrapper .btn-warning:hover,
+.wrapper .btn-secondary:hover,
+.wrapper .btn-dark:hover,
+.wrapper .btn-danger:hover {
+    background: #222222;
+    border-color: #222222;
+    color: #ffffff;
+}
+
+.wrapper .badge.bg-success { background-color: #222222 !important; color: #ffffff; }
+.wrapper .badge.bg-info { background-color: #444444 !important; color: #ffffff; }
+.wrapper .badge.bg-warning { background-color: #666666 !important; color: #ffffff; }
+.wrapper .badge.bg-danger { background-color: #000000 !important; color: #ffffff; }
+.wrapper .badge.bg-secondary { background-color: #333333 !important; color: #ffffff; }
+.wrapper .badge.bg-primary { background-color: #111111 !important; color: #ffffff; }
+
+.wrapper .text-primary,
+.wrapper .text-success,
+.wrapper .text-info,
+.wrapper .text-warning,
+.wrapper .text-danger,
+.wrapper .text-secondary { color: #111111 !important; }
+
 /* Header Styles */
 header {
-    background-color: #2c3e50;
+    background-color: #111111;
     padding: 1rem 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -41,7 +85,7 @@ nav a {
 }
 
 nav a:hover {
-    background-color: #34495e;
+    background-color: #222222;
 }
 
 /* Main Content */
@@ -52,7 +96,7 @@ main {
 }
 
 h2 {
-    color: #2c3e50;
+    color: #111111;
     margin-bottom: 2rem;
     font-size: 1.8rem;
 }
@@ -98,7 +142,7 @@ h2 {
 .admin-form button {
     display: flex;
     justify-content: center;
-    background-color: #3498db;
+    background-color: #111111;
     color: white;
     border: none;
     padding: 0.8rem 2rem;
@@ -109,7 +153,7 @@ h2 {
 }
 
 .admin-form button:hover {
-    background-color: #2980b9;
+    background-color: #222222;
 }
 
 /* Admin Table */
@@ -153,30 +197,30 @@ h2 {
 }
 
 .edit-btn {
-    background-color: #3498db;
+    background-color: #111111;
     color: white;
 }
 
 .edit-btn:hover {
-    background-color: #2980b9;
+    background-color: #222222;
 }
 
 .delete-btn {
-    background-color: #e74c3c;
+    background-color: #000000;
     color: white;
 }
 
 .delete-btn:hover {
-    background-color: #c0392b;
+    background-color: #222222;
 }
 
 .view-btn {
-    background-color: #2ecc71;
+    background-color: #333333;
     color: white;
 }
 
 .view-btn:hover {
-    background-color: #27ae60;
+    background-color: #444444;
 }
 
 /* Status Select */
@@ -196,7 +240,7 @@ main {
     justify-content: center;
     margin: 0 auto;
     padding: 2rem;
-    background-color: #288fcb;
+    background-color: #f5f5f5;
     border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -236,7 +280,7 @@ footer {
 .sidebar {
     width: 260px;
     min-height: 100vh;
-    background: #059669; /* emerald */
+    background: #111111; /* monochrome */
     box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     transition: all 0.3s ease;
@@ -351,7 +395,7 @@ footer {
 }
 
 .topbar .dropdown-toggle:hover {
-    color: #059669;
+    color: #000000;
 }
 
 /* Content Wrapper */
@@ -374,19 +418,19 @@ footer {
 }
 
 .border-left-primary {
-    border-left: 4px solid #4e73df !important;
+    border-left: 4px solid #111111 !important;
 }
 
 .border-left-success {
-    border-left: 4px solid #1cc88a !important;
+    border-left: 4px solid #333333 !important;
 }
 
 .border-left-info {
-    border-left: 4px solid #36b9cc !important;
+    border-left: 4px solid #555555 !important;
 }
 
 .border-left-warning {
-    border-left: 4px solid #f6c23e !important;
+    border-left: 4px solid #777777 !important;
 }
 
 .stat-label {
@@ -421,7 +465,7 @@ footer {
         top: 1rem;
         left: 1rem;
         z-index: 1001;
-        background: #059669;
+        background: #111111;
         border: none;
         color: white;
         padding: 0.5rem;
@@ -438,7 +482,7 @@ footer {
 }
 
 .table thead th {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #111111 0%, #333333 100%);
     color: white;
     border: none;
     font-weight: 600;
@@ -452,7 +496,7 @@ footer {
 }
 
 .table tbody tr:hover {
-    background-color: rgba(102, 126, 234, 0.05);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 /* Button enhancements */

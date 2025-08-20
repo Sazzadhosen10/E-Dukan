@@ -50,13 +50,13 @@
 }
 
 .card-header.bg-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, #111111 0%, #333333 100%);
+    color: #f5f5f5;
 }
 
 .card-header.bg-secondary {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    color: white;
+    background: linear-gradient(135deg, #222222 0%, #444444 100%);
+    color: #f5f5f5;
 }
 
 .card-header h5 {
@@ -140,39 +140,39 @@ textarea.form-control {
 }
 
 .btn-success {
-    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-    color: white;
-    box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+    background: linear-gradient(135deg, #111111 0%, #333333 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .btn-success:hover {
-    background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+    background: linear-gradient(135deg, #000000 0%, #222222 100%);
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(72, 187, 120, 0.4);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    background: linear-gradient(135deg, #222222 0%, #444444 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    background: linear-gradient(135deg, #111111 0%, #333333 100%);
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
 
 .btn-danger {
-    background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
-    color: white;
-    box-shadow: 0 4px 12px rgba(245, 101, 101, 0.3);
+    background: linear-gradient(135deg, #000000 0%, #222222 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .btn-danger:hover {
-    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+    background: linear-gradient(135deg, #111111 0%, #333333 100%);
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(245, 101, 101, 0.4);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
 
 .btn-sm {
@@ -267,16 +267,16 @@ textarea.form-control {
 }
 
 .page-link:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-color: #667eea;
-    color: white;
+    background: linear-gradient(135deg, #111111 0%, #333333 100%);
+    border-color: #111111;
+    color: #ffffff;
     transform: translateY(-1px);
 }
 
 .page-item.active .page-link {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-color: #667eea;
-    color: white;
+    background: linear-gradient(135deg, #000000 0%, #222222 100%);
+    border-color: #000000;
+    color: #ffffff;
 }
 
 /* File Input Styling */
@@ -497,6 +497,24 @@ form[style*="display:inline-block"] {
                     </div>
                 </div>
 
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" name="is_featured" class="form-check-input" id="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_featured">
+                            Mark as Featured Product (shows on homepage)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" name="is_best_seller" class="form-check-input" id="is_best_seller" value="1" {{ old('is_best_seller') ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_best_seller">
+                            Mark as Best Seller (shows in Best Sellers section)
+                        </label>
+                    </div>
+                </div>
+
                 <div class="text-end">
                     <button type="submit" class="btn btn-success">
                         <i class="fas fa-plus"></i> Add Product
@@ -524,6 +542,8 @@ form[style*="display:inline-block"] {
                                 <th>Price</th>
                                 <th>Stock</th>
                                 <th>Status</th>
+                                <th>Featured</th>
+                                <th>Best Seller</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -571,6 +591,20 @@ form[style*="display:inline-block"] {
                                         @endif
                                     </td>
                                     <td>
+                                        @if($product->is_featured)
+                                            <span class="badge bg-secondary">Featured</span>
+                                        @else
+                                            <span class="badge bg-light text-muted">—</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($product->is_best_seller)
+                                            <span class="badge bg-secondary">Best Seller</span>
+                                        @else
+                                            <span class="badge bg-light text-muted">—</span>
+                                        @endif
+                                    </td>
+                                    <td>
                                         <div class="btn-group" role="group">
                                             <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-sm btn-primary" title="Edit Product">
                                                 <i class="fas fa-edit"></i>
@@ -592,7 +626,7 @@ form[style*="display:inline-block"] {
 
                 <!-- Pagination -->
                 <div class="d-flex justify-content-center mt-4">
-                    {{ $products->links() }}
+                    {{ $products->links('admin.components.pagination') }}
                 </div>
             @else
                 <div class="text-center py-4">

@@ -29,7 +29,7 @@
     <!-- Orders Table -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">All Orders</h6>
+            <h6 class="m-0">All Orders</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -60,7 +60,7 @@
                                 </div>
                             </td>
                             <td>
-                                <span class="badge bg-info">{{ $order->orderItems->count() }} items</span>
+                                <span class="badge bg-secondary">{{ $order->orderItems->count() }} items</span>
                                 <div class="mt-1">
                                     @foreach($order->orderItems->take(2) as $item)
                                         <small class="d-block text-muted">{{ $item->product_name }} ({{ $item->quantity }})</small>
@@ -71,7 +71,7 @@
                                 </div>
                             </td>
                             <td>
-                                <strong class="text-success">@money($order->total_amount)</strong>
+                                <strong>@money($order->total_amount)</strong>
                             </td>
                             <td>
                                 <form action="{{ route('admin.orders.updateStatus', $order) }}" method="POST" class="d-inline">
@@ -90,7 +90,7 @@
                                 <span class="badge bg-{{ $order->status_badge }} mt-1">{{ ucfirst($order->status) }}</span>
                             </td>
                             <td>
-                                <span class="badge bg-warning">{{ ucfirst(str_replace('_', ' ', $order->payment_method)) }}</span>
+                                <span class="badge bg-secondary">{{ ucfirst(str_replace('_', ' ', $order->payment_method)) }}</span>
                                 <br>
                                 <small class="text-muted">{{ ucfirst($order->payment_status) }}</small>
                             </td>
@@ -99,7 +99,7 @@
                                 <small class="text-muted">{{ $order->created_at->format('h:i A') }}</small>
                             </td>
                             <td>
-                                <button class="btn btn-sm btn-info" data-bs-toggle="modal" 
+                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" 
                                         data-bs-target="#orderModal{{ $order->id }}">
                                     <i class="fas fa-eye"></i> View
                                 </button>
@@ -117,7 +117,7 @@
                     </tbody>
                 </table>
             </div>
-            {{ $orders->links() }}
+            {{ $orders->links('admin.components.pagination') }}
         </div>
     </div>
 </div>
@@ -205,7 +205,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                 <a href="mailto:{{ $order->shipping_email }}" class="btn btn-primary">
                     <i class="fas fa-envelope me-1"></i>Email Customer
                 </a>

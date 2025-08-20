@@ -141,11 +141,7 @@
             </div>
 
             <!-- Pagination -->
-            @if($products->hasPages())
-            <div class="d-flex justify-content-center mt-4">
-                {{ $products->appends(['q' => $query])->links() }}
-            </div>
-            @endif
+            {{ $products->appends(['q' => $query])->links('components.pagination') }}
 
             <!-- Search Suggestions -->
             @if($products->isEmpty() && $query)
@@ -172,7 +168,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <p>&copy; 2024 E-Dukan. All rights reserved.</p>
+                    <p>&copy; 2025 E-Dukan. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-end">
                     <a href="#" class="text-white me-3">Privacy Policy</a>

@@ -9,6 +9,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary: #059669; /* emerald */
+            --primary-dark: #047857;
+            --accent: #06b6d4; /* cyan */
+            --indigo: #6366f1;
+            --warning: #f59e0b; /* amber */
+            --slate: #0f172a; /* slate-900 */
+            --muted: #6b7280; /* slate-500 */
+            --bg: #f8fafc;
+            --card: #ffffff;
+        }
+
         .dashboard-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border: none;
@@ -22,32 +34,32 @@
         }
 
         .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: #ffffff;
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 20px;
         }
 
         .stat-card.success {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
         }
 
         .stat-card.warning {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%);
         }
 
         .stat-card.info {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background: linear-gradient(135deg, #0e7490 0%, #06b6d4 100%);
         }
 
         .order-item {
-            border-left: 4px solid #007bff;
+            border-left: 4px solid var(--primary);
             transition: all 0.3s ease;
         }
 
         .order-item:hover {
-            border-left-color: #0056b3;
+            border-left-color: var(--primary-dark);
             background-color: #f8f9fa;
         }
 
@@ -64,12 +76,22 @@
         }
 
         .welcome-banner {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--slate) 0%, var(--primary) 100%);
+            color: #ffffff;
             border-radius: 20px;
             padding: 40px;
             margin-bottom: 30px;
         }
+
+        /* Buttons and text overrides to match palette */
+        .text-primary { color: var(--primary) !important; }
+        .text-success { color: var(--primary) !important; }
+        .btn-primary { background: var(--primary); border-color: var(--primary); }
+        .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+        .btn-outline-primary { color: var(--primary); border-color: var(--primary); }
+        .btn-outline-primary:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+        .btn-outline-info { color: var(--accent); border-color: var(--accent); }
+        .btn-outline-info:hover { color: #fff; background: var(--accent); border-color: var(--accent); }
     </style>
 </head>
 
@@ -331,7 +353,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <p>&copy; 2024 E-Dukan. All rights reserved.</p>
+                    <p>&copy; 2025 E-Dukan. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-end">
                     <a href="#" class="text-white me-3">Privacy Policy</a>
